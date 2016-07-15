@@ -47,4 +47,4 @@ bower_components
 public/*.css
 
 # webpack bundled script
-public/client-bundle.js
+public/bundle.js

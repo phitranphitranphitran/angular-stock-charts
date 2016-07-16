@@ -2,9 +2,11 @@
   Welcome
 </header>
 
-<div ng-controller="TestController as test">
-  {{test.data}}
-</div>
+<main ng-controller="StocksController as stocks">
+  <p ng-click="stocks.get()">Try to fetch again - it shouldn't work!</p>
+  <div ng-bind="stocks.quotes"></div>
+  <div ng-bind="stocks.history"></div>
+</main>
 
 <footer>
   2016

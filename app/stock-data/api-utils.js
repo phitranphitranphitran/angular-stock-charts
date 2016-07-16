@@ -8,7 +8,7 @@ export function getQuotesUrl(symbols) {
 
 // returns a URL that will request stock prices for company symbols over the
 // given range in time
-export function getHistoricalDataUrl(symbols, startDate, endDate) {
+export function getHistoriesUrl(symbols, startDate, endDate) {
   const query = `select * from yahoo.finance.historicaldata
     where symbol in (${formatSymbols(symbols)})
     and startDate = "${formatDate(startDate)}"

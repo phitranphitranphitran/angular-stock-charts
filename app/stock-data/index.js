@@ -1,10 +1,10 @@
 import angular from "angular";
 
-import quotesService from "./quotes-service";
-import historicalDataService from "./historical-data-service";
+import StockQuotesService from "./stock-quotes-service";
+import StockHistoriesService from "./stock-histories-service";
 
 const stockDataModule = angular.module("app.stockData", [])
-  .service("stockQuotes", quotesService)
-  .service("stockHistoricalData", historicalDataService);
+  .service("stockQuotes", StockQuotesService)
+  .service("stockHistories", StockHistoriesService);
 
 export default stockDataModule;

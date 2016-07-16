@@ -10,17 +10,26 @@ const app = angular.module("app", [
   .component("app", {
     template: appTemplate
   })
-  .controller("TestController", ["stockHistoricalData", function(stockHistoricalData) {
-    stockHistoricalData.get().then(res => {
-      this.data = res.data.query.results.quote;
+  .controller("StocksController", ["stockQuotes", "stockHistories",
+    function(stockQuotes, stockHistories)
+  {
+    stockQuotes.get().then(data => {
+      this.quotes = data.query.results.quote[0]["Name"];
     });
+
+    stockHistories.get().then(data => {
+      this.history = data.query.results.quote[0]["Symbol"]
+       + " - " + data.query.results.quote[0]["Close"];
+    });
+
+    this.get = function() {
+      stockQuotes.get().then(data => {
+        console.log(data.query.created);
+      });
+      stockHistories.get().then(data => {
+        console.log(data.query.created);
+      });
+    };
   }]);
-  // .controller("TestController", ["stockQuotes", function(stockQuotes) {
-  //   stockQuotes.get().then(res => {
-  //     this.data = res.data.query.results.quote.map(quote => ({
-  //       symbol: quote.symbol
-  //     }));
-  //   });
-  // }]);
 
 export default app;

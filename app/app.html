@@ -4,8 +4,12 @@
 
 <main ng-controller="StocksController as stocks">
   <p ng-click="stocks.get()">Try to fetch again - it shouldn't work!</p>
-  <div ng-bind="stocks.quotes"></div>
-  <div ng-bind="stocks.history"></div>
+  <p ng-repeat="quote in stocks.quotes"
+    ng-bind-template="{{quote['Name']}} - {{quote['MarketCapitalization']}}">
+  </p>
+  <div ng-repeat="history in stocks.histories"
+    ng-bind-template="{{history['Symbol']}}: {{history['Close']}}">
+  </div>
 </main>
 
 <footer>

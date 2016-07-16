@@ -48,3 +48,7 @@ public/*.css
 
 # webpack bundled script
 public/bundle.js
+
+# mock API data
+public/mock-quotes.json
+public/mock-histories.json

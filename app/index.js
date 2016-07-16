@@ -14,12 +14,11 @@ const app = angular.module("app", [
     function(stockQuotes, stockHistories)
   {
     stockQuotes.get().then(data => {
-      this.quotes = data.query.results.quote[0]["Name"];
+      this.quotes = data.query.results.quote;
     });
 
     stockHistories.get().then(data => {
-      this.history = data.query.results.quote[0]["Symbol"]
-       + " - " + data.query.results.quote[0]["Close"];
+      this.histories = data.query.results.quote;
     });
 
     this.get = function() {

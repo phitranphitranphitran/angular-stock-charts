@@ -9,21 +9,24 @@ function ApiServiceFactory(url) {
     this.data = null;
   }
 
-  ApiService.prototype.fetchData = function() {
-    return this.$http.get(this.url)
-      .then(res => {
-        this.data = res.data;
-        return this.data;
-      });
-  };
-
   ApiService.prototype.get = function() {
     return this.$q((resolve, reject) => {
       if (!this.data) {
-        return this.fetchData().then(resolve).catch(reject);
+        return this.fetchData()
+          .then(data => {
+            this.data = data;
+            return data;
+          })
+          .then(resolve)
+          .catch(reject);
+      } else {
+        return resolve(this.data);
       }
-      return resolve(this.data);
     });
+  };
+
+  ApiService.prototype.fetchData = function() {
+    return this.$http.get(this.url).then(res => res.data);
   };
 
   ApiService.$inject = ["$http", "$q"];

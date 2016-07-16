@@ -4,7 +4,5 @@ export const symbols = ["XOM", "CVS", "NFLX", "TAP", "AAPL",
 export const endDate = new Date();
 
 // one month before
-const startDate = new Date(endDate.getTime());
+export const startDate = new Date(endDate.getTime());
 startDate.setUTCMonth(endDate.getUTCMonth() - 1);
-
-export { startDate };

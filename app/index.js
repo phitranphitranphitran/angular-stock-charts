@@ -1,15 +1,37 @@
 import angular from "angular";
+import Highcharts from "highcharts";
+window.Highcharts = Highcharts;
+import "highcharts-ng";
+
 import appTemplate from "./app.html";
 
 // import all angular modules here
 import "./stock-data";
 import "./companies-table";
+// import "./price-history-chart";
 
 const app = angular.module("app", [
+    "highcharts-ng",
     "app.companiesTable"
   ])
   .component("app", {
-    template: appTemplate
+    template: appTemplate,
+    controller: function() {
+      this.chartConfig = {
+        options: {
+          chart: {
+            type: "bar"
+          }
+        },
+        series: [{
+          data: [10, 15, 12, 8, 7]
+        }],
+        title: {
+          text: "Hello"
+        },
+        loading: false
+      };
+    }
   });
   // .controller("StocksController", ["stockQuotes", "stockHistories",
   //   function(stockQuotes, stockHistories)

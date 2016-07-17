@@ -32,6 +32,8 @@
     "gulp-cli": "^1.2.1",
     "gulp-sass": "^2.3.1",
     "gulp-sourcemaps": "^2.0.0-alpha",
+    "highcharts": "^4.2.5",
+    "highcharts-ng": "0.0.11",
     "webpack": "^1.13.0"
   },
   "devDependencies": {

@@ -7,13 +7,7 @@ function PriceHistoryChartController(stockHistories) {
       if (!this.histories.hasOwnProperty(symbol)) {
         this.histories[symbol] = [];
       }
-      // convert date string from API to unix time
-      const date = dataPoint["Date"].split("-").map(s => Number(s));
-      const year = date[0];
-      const month = date[1] - 1; // JS Date constructor expects 0-11 for month
-      const day = date[2];
-      const time = (new Date(year, month, day)).getTime();
-
+      const time = (new Date(dataPoint["Date"])).getTime();
       const price = +Number(dataPoint["Close"]).toFixed(2);
 
       this.histories[symbol].push([time, price]);

@@ -31,19 +31,5 @@ function formatSymbols(symbols) {
 
 // converts a Date object to a YQL-compatible date string
 function formatDate(date) {
-  const year = date.getUTCFullYear();
-
-  // .getUTCMonth() returns 0-11, so need to +1
-  let month = date.getUTCMonth() + 1;
-  if (month <= 9) {
-    month = "0" + month;
-  }
-
-  // .getUTCDate() returns 1-31, no need to +1
-  let day = date.getUTCDate();
-  if (day <= 9) {
-    day = "0" + day;
-  }
-
-  return `${year}-${month}-${day}`;
+  return date.toISOString().substr(0, 10);
 }

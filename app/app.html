@@ -3,7 +3,6 @@
 </header>
 
 <main ng-controller="StocksController as stocks">
-  <p ng-click="stocks.get()">Try to fetch again - it shouldn't work!</p>
   <p ng-repeat="quote in stocks.quotes"
     ng-bind-template="{{quote['Name']}} - {{quote['MarketCapitalization']}}">
   </p>

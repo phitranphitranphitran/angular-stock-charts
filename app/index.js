@@ -14,21 +14,12 @@ const app = angular.module("app", [
     function(stockQuotes, stockHistories)
   {
     stockQuotes.get().then(data => {
-      this.quotes = data.query.results.quote;
+      this.quotes = data;
     });
 
     stockHistories.get().then(data => {
-      this.histories = data.query.results.quote;
+      this.histories = data;
     });
-
-    this.get = function() {
-      stockQuotes.get().then(data => {
-        console.log(data.query.created);
-      });
-      stockHistories.get().then(data => {
-        console.log(data.query.created);
-      });
-    };
   }]);
 
 export default app;

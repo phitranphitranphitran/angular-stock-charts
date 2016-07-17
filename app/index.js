@@ -1,18 +1,14 @@
 import angular from "angular";
 
-// import all angular modules here
-import "./stock-data";
-import "./companies-table";
-import "./price-history-chart";
+import "./companies-table"; // app.priceHistoryChart module
+import "./price-history-chart"; // app.companiesTable module
 
 import template from "./app.html";
 
-const app = angular.module("app", [
+angular.module("app", [
     "app.priceHistoryChart",
     "app.companiesTable"
   ])
   .component("app", {
     template
   });
-
-export default app;

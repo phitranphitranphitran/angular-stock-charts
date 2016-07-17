@@ -1,12 +1,11 @@
 import angular from "angular";
 import appTemplate from "./app.html";
 
-// angular modules
+// import all angular modules here
 import "./stock-data";
 import "./companies-table";
 
 const app = angular.module("app", [
-    // "app.stockData",
     "app.companiesTable"
   ])
   .component("app", {

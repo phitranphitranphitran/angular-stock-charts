@@ -1,3 +1,4 @@
+<input ng-model="$ctrl.searchString" type="text" placeholder="Filter companies" />
 <table class="table">
   <thead>
     <tr>
@@ -9,11 +10,12 @@
   </thead>
   <tbody>
     <tr ng-repeat="company in $ctrl.companies"
-        ng-click="$ctrl.setActiveStock($index)">
-      <td ng-bind="company['Symbol']"></td>
-      <td ng-bind="company['Name']"></td>
-      <td ng-bind="company['LastTradePriceOnly']"></td>
-      <td ng-bind="company['MarketCapitalization']"></td>
+        ng-click="$ctrl.setActiveStock($index)"
+        ng-show="$ctrl.isNotFiltered($index)">
+      <td ng-bind="company.symbol"></td>
+      <td ng-bind="company.name"></td>
+      <td ng-bind="company.currentPrice"></td>
+      <td ng-bind="company.marketCap"></td>
     </tr>
   </tbody>
 </table>

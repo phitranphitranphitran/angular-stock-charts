@@ -21,18 +21,18 @@ function CompaniesTableController(stockQuotes) {
     console.log(this.companies[index]["Symbol"]);
   };
 
-  // determines if a company row should be shown or hidden in the table
-  // according to the user search input
-  this.isNotFiltered = function(index, searchString) {
-    if (!searchString) {
-      return true;
-    }
-    const company = this.companies[index];
-    const name = company.name.toLowerCase();
-    const symbol = company.symbol.toLowerCase();
-    searchString = searchString.toLowerCase();
+  // will show company in table if searchString is substring of name or symbol
+  this.filterByNameOrSymbol = function(searchString) {
+    return function(company) {
+      if (!searchString) {
+        return true;
+      }
+      const name = company.name.toLowerCase();
+      const symbol = company.symbol.toLowerCase();
+      searchString = searchString.toLowerCase();
 
-    return name.includes(searchString) || symbol.includes(searchString);
+      return name.includes(searchString) || symbol.includes(searchString);
+    };
   };
 
 }

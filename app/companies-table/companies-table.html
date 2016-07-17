@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Company Name</th>
+      <th>Current Price (USD)</th>
+      <th>Market Cap (USD)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="company in $ctrl.companies"
+        ng-click="$ctrl.setActiveStock($index)">
+      <td ng-bind="company['Symbol']"></td>
+      <td ng-bind="company['Name']"></td>
+      <td ng-bind="company['LastTradePriceOnly']"></td>
+      <td ng-bind="company['MarketCapitalization']"></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,25 +1,19 @@
 function CompaniesTableController(stockQuotes) {
 
   stockQuotes.get().then(data => {
-    this.companies = data.query.results.quote.map(company => {
-      // simplify property names
-      company.symbol = company["Symbol"];
-      company.name = company["Name"];
-      company.currentPrice = Number(company["LastTradePriceOnly"]).toFixed(2);
-      // market cap is formatted by default in API response
-      company.marketCapFormatted = company["MarketCapitalization"];
-      company.marketCap = marketCapToNum(company["MarketCapitalization"]);
-      return company;
-    });
+    // take only necessary data and simplify property names
+    this.companies = data.query.results.quote.map(company => ({
+      symbol: company["Symbol"],
+      name: company["Name"],
+      currentPrice: Number(company["LastTradePriceOnly"]).toFixed(2),
+      marketCapFormatted: company["MarketCapitalization"],
+      marketCap: marketCapToNum(company["MarketCapitalization"])
+    }));
   });
 
   // table rows initially ordered by symbol ascending
   this.orderByField = "symbol";
   this.orderReverse = false;
-
-  this.setActiveStock = function(index) {
-    console.log(this.companies[index]["Symbol"]);
-  };
 
   // will show company in table if searchString is substring of name or symbol
   this.filterByNameOrSymbol = function(searchString) {
@@ -33,6 +27,11 @@ function CompaniesTableController(stockQuotes) {
 
       return name.includes(searchString) || symbol.includes(searchString);
     };
+  };
+
+  this.setActiveStock = function(company) {
+    this.activeStock = company;
+    console.log(company.symbol);
   };
 
 }

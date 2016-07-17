@@ -36,7 +36,7 @@
     <tr ng-repeat="company in $ctrl.companies
         | orderBy : $ctrl.orderByField : $ctrl.orderReverse
         | filter : $ctrl.filterByNameOrSymbol(searchString)"
-        ng-click="$ctrl.setActiveStock($index)">
+        ng-click="$ctrl.setActiveStock(company)">
       <td ng-bind="company.symbol"></td>
       <td ng-bind="company.name"></td>
       <td ng-bind="company.currentPrice"></td>

@@ -1,5 +1,5 @@
-export const symbols = ["XOM", "CVS", "NFLX", "TAP", "AAPL",
-  "DIS", "RL", "ADBE", "DPS", "DLTR"];
+export const symbols = ["AAPL", "ADBE", "CVS", "DIS", "DLTR",
+  "DPS", "NFLX", "RL", "TAP", "XOM"];
 
 export const endDate = new Date();
 

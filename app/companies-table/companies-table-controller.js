@@ -16,7 +16,7 @@ function CompaniesTableController(stockQuotes) {
   this.orderReverse = false;
 
   // will show company in table if searchString is substring of name or symbol
-  this.filterByNameOrSymbol = function(searchString) {
+  this.filterByNameOrSymbol = (searchString) => {
     return function(company) {
       if (!searchString) {
         return true;
@@ -27,11 +27,6 @@ function CompaniesTableController(stockQuotes) {
 
       return name.includes(searchString) || symbol.includes(searchString);
     };
-  };
-
-  this.setActiveStock = function(company) {
-    this.activeStock = company;
-    console.log(company.symbol);
   };
 
 }

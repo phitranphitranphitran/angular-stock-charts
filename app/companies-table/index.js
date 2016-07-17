@@ -10,5 +10,8 @@ angular.module("app.companiesTable", [
   ])
   .component("companiesTable", {
     template,
-    controller
+    controller,
+    bindings: {
+      activeStock: "="
+    }
   });

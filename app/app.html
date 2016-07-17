@@ -3,8 +3,9 @@
 </header> -->
 
 <main>
+  <h1 ng-bind="$ctrl.activeStock"></h1>
   <price-history-chart></price-history-chart>
-  <companies-table></companies-table>
+  <companies-table active-stock="$ctrl.activeStock"></companies-table>
 </main>
 
 <!-- <footer>

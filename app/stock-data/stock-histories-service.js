@@ -1,17 +1,28 @@
+import ApiRequestService from "./api-request-service";
 import * as apiUtils from "./api-utils";
+import { APIS } from "../constants";
 import { symbols, startDate, endDate } from "./config";
 
-class StockHistoriesService extends apiUtils.ApiService {
+class StockHistoriesService extends ApiRequestService {
   getUrl() {
-    // check this.api to see which api url to use / module to call
     return process.env.NODE_ENV === "production" ?
-      apiUtils.yahoo.urlUtils.getHistoriesUrl(symbols, startDate, endDate) :
+      this.getHistoriesUrl(symbols, startDate, endDate) :
       "/histories.mock.json";
   }
   formatData(data) {
-    // check this.api to see which module to call
-    return apiUtils.yahoo.dataUtils.extractHistories(data);
+    return this.extractHistories(data);
+  }
+  onUpdateApi(api) {
+    switch(api) {
+      // yahoo API is default
+      case APIS.YAHOO:
+      default:
+        this.getHistoriesUrl = apiUtils.yahoo.urlUtils.getHistoriesUrl;
+        this.extractHistories = apiUtils.yahoo.dataUtils.extractHistories;
+    }
   }
 }
+
+// StockHistoriesService.$inject = ["$http", "$q", "apiSelector"];
 
 export default StockHistoriesService;

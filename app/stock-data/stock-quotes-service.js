@@ -1,7 +1,8 @@
-import { ApiService, yahoo } from "./api-utils";
+import ApiRequestService from "./api-request-service";
+import { yahoo } from "./api-utils";
 import { symbols } from "./config";
 
-class StockQuotesService extends ApiService {
+class StockQuotesService extends ApiRequestService {
   getUrl() {
     return process.env.NODE_ENV === "production" ?
       yahoo.urlUtils.getQuotesUrl(symbols) : "/quotes.mock.json";

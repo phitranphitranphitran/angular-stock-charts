@@ -16,8 +16,14 @@ $highlightColor: #F37121;
   background-color: $darkThemeColor;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
-  a {
+
+  a, li > a {
     color: white;
+    &:focus, &:hover {
+      color: #BBB;
+      background-color: inherit;
+      text-decoration: none;
+    }
   }
 }
 
@@ -34,10 +40,6 @@ main {
   margin-bottom: 0;
   width: 100%;
   line-height: 3.5em;
-  a:hover {
-    color: white;
-    text-decoration: none;
-  }
 }
 
 // Companies Table
@@ -72,7 +74,7 @@ main {
 }
 
 // General
-// -----------------------------------------
+// -------------------------------------------
 
 .hidden {
   visibility: hidden;

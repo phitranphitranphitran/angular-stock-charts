@@ -4,7 +4,7 @@
 
 <main>
   <h1 ng-bind="$ctrl.activeStock"></h1>
-  <price-history-chart></price-history-chart>
+  <price-history-chart active-stock="$ctrl.activeStock"></price-history-chart>
   <companies-table active-stock="$ctrl.activeStock"></companies-table>
 </main>
 

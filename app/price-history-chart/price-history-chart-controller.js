@@ -1,3 +1,5 @@
+import { startDate, endDate } from "../stock-data/config";
+
 function PriceHistoryChartController($scope, stockHistories) {
   stockHistories.get().then(data => {
     this.histories = getPriceHistories(data);
@@ -57,7 +59,8 @@ function PriceHistoryChartController($scope, stockHistories) {
     },
     xAxis: {
       title: { text: "Date" },
-      type: "datetime"
+      type: "datetime",
+      gridLineWidth: 1
     },
     yAxis: {
       title: { text: "Stock Price (USD)" }
@@ -69,7 +72,8 @@ function PriceHistoryChartController($scope, stockHistories) {
   };
 
   const updateChart = (activeStock) => {
-    this.chartConfig.title.text = activeStock;
+    this.chartConfig.title.text =
+      `${activeStock} Stock Price From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
     this.chartConfig.series[0].name = activeStock;
     this.chartConfig.series[0].data = this.histories ?
       this.histories[activeStock] : [];

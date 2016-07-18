@@ -21,6 +21,10 @@ $highlightColor: #F37121;
   }
 }
 
+.navbar {
+  margin-bottom: 0;
+}
+
 main {
   padding: 2em 0;
 }
@@ -41,7 +45,6 @@ main {
 
 .companies-table {
   .form-control {
-    width: auto;
     margin: 2em 0;
   }
   table {
@@ -49,6 +52,7 @@ main {
 
     td, th {
       padding: 0.5em;
+      font-size: 0.8em;
       span {
         cursor: pointer;
       }
@@ -78,4 +82,26 @@ main {
 .order-caret {
   margin-left: 3px;
   color: $highlightColor;
+}
+
+// Media Queries
+// -------------------------------------------
+
+@media screen and (min-width: 768px) {
+  .companies-table {
+    .form-control {
+      width: auto;
+    }
+    table {
+      td, th {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .order-caret {
+    display: block;
+  }
 }

@@ -1,11 +1,7 @@
 import { startDate, endDate } from "../stock-data/config";
 
-function PriceHistoryChartController($scope, stockHistories) {
-  stockHistories.get().then(histories => {
-    this.histories = histories;
-    updateChart(this.activeStock);
-  });
-
+function PriceHistoryChartController($scope, stockHistories, apiSelector) {
+  // highcharts-ng config object
   this.chartConfig = {
     options: {
       chart: {
@@ -43,10 +39,22 @@ function PriceHistoryChartController($scope, stockHistories) {
       this.histories[activeStock] : [];
   };
 
+  const getHistories = () => {
+    stockHistories.get().then(histories => {
+      this.histories = histories;
+      updateChart(this.activeStock);
+    });
+  };
+
+  getHistories();
+
+  // reload data and chart on API change
+  $scope.$watch(() => apiSelector.getApi(), getHistories);
+
   // update chart series and labels when activeStock changes
-  $scope.$watch("$ctrl.activeStock", updateChart);
+  $scope.$watch(() => this.activeStock, updateChart);
 }
 
-PriceHistoryChartController.$inject = ["$scope", "stockHistories"];
+PriceHistoryChartController.$inject = ["$scope", "stockHistories", "apiSelector"];
 
 export default PriceHistoryChartController;

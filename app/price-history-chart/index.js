@@ -16,6 +16,6 @@ angular.module("app.priceHistoryChart", [
     template,
     controller,
     bindings: {
-      "activeStock": "="
+      "activeStock": "<"
     }
   });

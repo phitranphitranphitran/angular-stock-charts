@@ -1,7 +1,14 @@
-function CompaniesTableController(stockQuotes) {
-  stockQuotes.get().then(quotes => {
-    this.companies = quotes;
-  });
+function CompaniesTableController($scope, stockQuotes, apiSelector) {
+  const getQuotes = () => {
+    stockQuotes.get().then(quotes => {
+      this.companies = quotes;
+    });
+  };
+
+  getQuotes();
+
+  // reload data on API change
+  $scope.$watch(() => apiSelector.getApi(), getQuotes);
 
   // table rows initially ordered by symbol ascending
   this.orderByField = "symbol";
@@ -23,6 +30,6 @@ function CompaniesTableController(stockQuotes) {
   };
 }
 
-CompaniesTableController.$inject = ["stockQuotes"];
+CompaniesTableController.$inject = ["$scope", "stockQuotes", "apiSelector"];
 
 export default CompaniesTableController;

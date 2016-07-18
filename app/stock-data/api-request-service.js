@@ -13,24 +13,30 @@ class ApiRequestService {
     this.$q = $q;
     this.apiSelector = apiSelector;
 
-    this.api = apiSelector.getApi();
-    this.onUpdateApi(this.api);
-    this.data = null;
+    this.data = false;
+    this.fetching = false;
   }
   get() {
+    if (this.fetching) {
+      return this.fetching;
+    }
+    // get() will configure itself to API changes automatically
+    // so client code does not need to call onUpdateApi
     const api = this.apiSelector.getApi();
-    return this.$q((resolve, reject) => {
-      // fetch only initially or on selected API change
-      if (!this.data || this.api !== api) {
-        // get() will configure itself to API changes automatically
-        // so client code does not need to call onUpdateApi
-        this.api = api;
-        this.onUpdateApi(api);
-
+    if (this.api !== api) {
+      this.api = api;
+      this.onUpdateApi(api);
+      this.data = false;
+    }
+    return this.fetching = this.$q((resolve, reject) => {
+      if (!this.data) {
         return this.fetchData()
           .then(data => this.formatData(data))
-          .then(data => this.data = data)
-          .then(resolve)
+          .then(data => {
+            this.data = data;
+            this.fetching = false;
+            return resolve(data);
+          })
           .catch(reject);
       }
       return resolve(this.data);

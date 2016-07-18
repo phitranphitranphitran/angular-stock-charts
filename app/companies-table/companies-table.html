@@ -3,25 +3,25 @@
   <thead>
     <tr>
       <th ng-click="$ctrl.orderByField='symbol'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        Symbol
+        <span>Symbol</span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'symbol'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='name'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        Company Name
+        <span>Company Name</span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'name'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='currentPrice'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        Current Price (USD)
+        <span>Current Price (USD)</span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'currentPrice'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='marketCap'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        Market Cap (USD)
+        <span>Market Cap (USD)</span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'marketCap'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
@@ -32,11 +32,12 @@
     <tr ng-repeat="company in $ctrl.companies
         | orderBy : $ctrl.orderByField : $ctrl.orderReverse
         | filter : $ctrl.filterByNameOrSymbol(searchString)"
-        ng-click="$ctrl.activeStock = company.symbol">
-      <td ng-bind="company.symbol"></td>
-      <td ng-bind="company.name"></td>
-      <td ng-bind="company.currentPrice"></td>
-      <td ng-bind="company.marketCapFormatted"></td>
+        ng-click="$ctrl.activeStock = company.symbol"
+        ng-class="{'active-row': company.symbol === $ctrl.activeStock}">
+      <td><span ng-bind="company.symbol"></span></td>
+      <td><span ng-bind="company.name"></span></td>
+      <td><span ng-bind="company.currentPrice"></span></td>
+      <td><span ng-bind="company.marketCapFormatted"></span></td>
     </tr>
   </tbody>
 </table>

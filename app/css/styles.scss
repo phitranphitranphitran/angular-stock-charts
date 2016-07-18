@@ -52,12 +52,16 @@ main {
 
     td, th {
       padding: 0.5em;
-    }
-    thead > tr {
-      border-bottom: 2px solid #ddd;
+      span {
+        cursor: pointer;
+      }
     }
     tbody > tr, {
-      border-top: 1px solid #ddd;
+      border-top: 0.5px solid #ddd;
+    }
+    .active-row {
+      background-color: $highlightColor;
+      color: white;
     }
   }
 }

@@ -3,7 +3,7 @@
 var gulp = require("gulp");
 var sass = require("gulp-sass");
 var sourcemaps = require("gulp-sourcemaps");
-
+var path = require("path");
 var del = require("del");
 
 var production = process.env.NODE_ENV === "production";
@@ -15,15 +15,18 @@ gulp.task("sass", function() {
         .on("error", sass.logError))
     // create sourcemap file
     .pipe(sourcemaps.write("./"))
-    .pipe(gulp.dest("./public/"));
+    .pipe(gulp.dest("./public"));
 });
 
 if (!production) {
   // copy mock API json data to public folder to avoid real API requests
   // outside production
   gulp.task("mock-data", function() {
-    return gulp.src("./app/common/mock-data/**/*")
-      .pipe(gulp.dest("./public"));
+    return gulp.src("./app/**/*/*.mock.json")
+      .pipe(gulp.dest(function(file) {
+            file.path = file.base + path.basename(file.path);
+            return "./public";
+        }));
   });
   gulp.task("default", ["sass", "mock-data"]);
 
@@ -31,7 +34,7 @@ if (!production) {
   // delete mock API data files if production
   gulp.task("clean:mock-data", function() {
     return del([
-      "./public/*.json"
+      "./public/*.mock.json"
     ]);
   });
   gulp.task("default", ["sass", "clean:mock-data"]);

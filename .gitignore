@@ -50,5 +50,4 @@ public/*.css
 public/bundle.js
 
 # mock API data
-public/mock-quotes.json
-public/mock-histories.json
+public/*.mock.json

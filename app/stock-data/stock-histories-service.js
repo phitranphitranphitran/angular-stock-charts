@@ -1,5 +1,6 @@
 import ApiService from "./api-utils/api-service";
 import { getHistoriesUrl } from "./api-utils/yahoo/url-utils";
+import { extractHistories } from "./api-utils/yahoo/data-utils";
 import { symbols, startDate, endDate } from "./config";
 
 class StockHistoriesService extends ApiService {
@@ -8,7 +9,7 @@ class StockHistoriesService extends ApiService {
       getHistoriesUrl(symbols, startDate, endDate) : "/histories.mock.json";
   }
   formatData(data) {
-    return data;
+    return extractHistories(data);
   }
 }
 

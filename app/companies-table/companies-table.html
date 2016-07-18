@@ -4,30 +4,26 @@
     <tr>
       <th ng-click="$ctrl.orderByField='symbol'; $ctrl.orderReverse = !$ctrl.orderReverse">
         Symbol
-        <span ng-show="$ctrl.orderByField === 'symbol'">
-          <span ng-show="!$ctrl.orderReverse">&#9650</span>
-          <span ng-show="$ctrl.orderReverse">&#9660</span>
+        <span ng-class="{'hidden': $ctrl.orderByField !== 'symbol'}">
+          <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='name'; $ctrl.orderReverse = !$ctrl.orderReverse">
         Company Name
-        <span ng-show="$ctrl.orderByField === 'name'">
-          <span ng-show="!$ctrl.orderReverse">&#9650</span>
-          <span ng-show="$ctrl.orderReverse">&#9660</span>
+        <span ng-class="{'hidden': $ctrl.orderByField !== 'name'}">
+          <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='currentPrice'; $ctrl.orderReverse = !$ctrl.orderReverse">
         Current Price (USD)
-        <span ng-show="$ctrl.orderByField === 'currentPrice'">
-          <span ng-show="!$ctrl.orderReverse">&#9650</span>
-          <span ng-show="$ctrl.orderReverse">&#9660</span>
+        <span ng-class="{'hidden': $ctrl.orderByField !== 'currentPrice'}">
+          <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='marketCap'; $ctrl.orderReverse = !$ctrl.orderReverse">
         Market Cap (USD)
-        <span ng-show="$ctrl.orderByField === 'marketCap'">
-          <span ng-show="!$ctrl.orderReverse">&#9650</span>
-          <span ng-show="$ctrl.orderReverse">&#9660</span>
+        <span ng-class="{'hidden': $ctrl.orderByField !== 'marketCap'}">
+          <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
     </tr>

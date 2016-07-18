@@ -1,4 +1,5 @@
-$darkThemeColor: #222222;
+$darkThemeColor: #333333;
+$highlightColor: #F37121;
 
 // Layout
 // ----------------------------------------
@@ -10,17 +11,66 @@ app {
   min-height: 100vh;
 }
 
+.navbar, .footer-bar {
+  background-color: $darkThemeColor;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+  a {
+    color: white;
+  }
+}
+
+.navbar {
+  border-radius: 0;
+}
+
 main {
   padding: 2em 0;
 }
 
-footer-bar {
+.footer-bar {
   margin-top: auto;
   margin-bottom: 0;
   width: 100%;
-  background-color: $darkThemeColor;
-  color: white;
-  p {
-    margin: 1em 0;
+  line-height: 3.5em;
+  a:hover {
+    color: white;
+    text-decoration: none;
   }
+}
+
+// Companies Table
+// ----------------------------------------
+
+.companies-table {
+  .form-control {
+    width: auto;
+    margin: 2em 0;
+  }
+  table {
+    width: 100%;
+
+    td, th {
+      padding: 0.5em;
+    }
+    thead > tr {
+      border-bottom: 2px solid #ddd;
+    }
+    tbody > tr, {
+      border-top: 1px solid #ddd;
+    }
+  }
+}
+
+// General
+// -----------------------------------------
+
+.hidden {
+  visibility: hidden;
+  display: initial !important; // !important needed to override bootstrap's !important
+}
+
+.order-caret {
+  margin-left: 3px;
+  color: $highlightColor;
 }

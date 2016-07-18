@@ -44,9 +44,15 @@ function PriceHistoryChartController($scope, stockHistories) {
     options: {
       chart: {
         type: "line"
+      },
+      plotOptions: {
+        line: { color: "#F37121" }
       }
     },
     title: {
+      style: {
+        "fontFamily": ["Montserrat", "sans-serif"]
+      }
       // text: this.activeStock
     },
     xAxis: {

@@ -4,7 +4,7 @@ $highlightColor: #F37121;
 // Layout
 // ----------------------------------------
 
-app {
+.app {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -12,16 +12,13 @@ app {
 }
 
 .navbar, .footer-bar {
+  border-radius: 0;
   background-color: $darkThemeColor;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
   a {
     color: white;
   }
-}
-
-.navbar {
-  border-radius: 0;
 }
 
 main {
@@ -60,8 +57,12 @@ main {
       border-top: 0.5px solid #ddd;
     }
     .active-row {
+      border-color: $highlightColor;
       background-color: $highlightColor;
       color: white;
+      & + tr {
+        border-color: $highlightColor;
+      }
     }
   }
 }

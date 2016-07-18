@@ -1,1 +1,26 @@
+$darkThemeColor: #222222;
 
+// Layout
+// ----------------------------------------
+
+app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+main {
+  padding: 2em 0;
+}
+
+footer-bar {
+  margin-top: auto;
+  margin-bottom: 0;
+  width: 100%;
+  background-color: $darkThemeColor;
+  color: white;
+  p {
+    margin: 1em 0;
+  }
+}

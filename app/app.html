@@ -1,13 +1,6 @@
-<!-- <header>
-  Welcome
-</header> -->
-
-<main>
-  <h1 ng-bind="$ctrl.activeStock"></h1>
+<navbar></navbar>
+<main class="container">
   <price-history-chart active-stock="$ctrl.activeStock"></price-history-chart>
   <companies-table active-stock="$ctrl.activeStock"></companies-table>
 </main>
-
-<!-- <footer>
-  2016
-</footer> -->
+<footer-bar></footer-bar>

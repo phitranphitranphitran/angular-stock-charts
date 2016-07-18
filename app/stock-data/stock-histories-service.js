@@ -1,10 +1,15 @@
-import ApiServiceFactory from "../common/api-service-factory";
+import ApiService from "../common/api-service";
 import { getHistoriesUrl } from "./api-utils";
 import { symbols, startDate, endDate } from "./config";
 
-const historiesUrl = process.env.NODE_ENV === "production" ?
-  getHistoriesUrl(symbols, startDate, endDate) : "/mock-histories.json";
-
-const StockHistoriesService = ApiServiceFactory(historiesUrl);
+class StockHistoriesService extends ApiService {
+  getUrl() {
+    return process.env.NODE_ENV === "production" ?
+      getHistoriesUrl(symbols, startDate, endDate) : "/mock-histories.json";
+  }
+  formatData(data) {
+    return data;
+  }
+}
 
 export default StockHistoriesService;

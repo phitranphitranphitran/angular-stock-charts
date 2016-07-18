@@ -1,10 +1,15 @@
-import ApiServiceFactory from "../common/api-service-factory";
+import ApiService from "../common/api-service";
 import { getQuotesUrl } from "./api-utils";
 import { symbols } from "./config";
 
-const quotesUrl = process.env.NODE_ENV === "production" ?
-  getQuotesUrl(symbols) : "/mock-quotes.json";
-
-const StockQuotesService = ApiServiceFactory(quotesUrl);
+class StockQuotesService extends ApiService {
+  getUrl() {
+    return process.env.NODE_ENV === "production" ?
+      getQuotesUrl(symbols) : "/mock-quotes.json";
+  }
+  formatData(data) {
+    return data;
+  }
+}
 
 export default StockQuotesService;

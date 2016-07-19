@@ -2,14 +2,13 @@
 // only fetches on initial get or on API changes, stores data after
 
 class ApiRequestService {
-  constructor($http, $q, apiSelector) {
+  constructor($q, apiSelector) {
     if (new.target === ApiRequestService) {
       throw new Error("Cannot instantiate ApiService directly (abstract class)");
     }
-    if (!this.getUrl) {
-      throw new Error("Must implement getUrl and specify API url (abstract method)");
+    if (!this.extractData) {
+      throw new Error("Must implement extractData (abstract method)");
     }
-    this.$http = $http;
     this.$q = $q;
     this.apiSelector = apiSelector;
 
@@ -33,7 +32,7 @@ class ApiRequestService {
     return this.fetching = this.$q((resolve, reject) => {
       if (!this.data) {
         return this.fetchData()
-          .then(data => this.formatData(data))
+          .then(res => this.extractData(res))
           .then(data => {
             this.data = data;
             this.fetching = false;
@@ -47,11 +46,8 @@ class ApiRequestService {
   onUpdateApi(api) {
     return api; // default implementation, does nothing
   }
-  fetchData() {
-    return this.$http.get(this.getUrl()).then(res => res.data);
-  }
-  formatData(data) {
-    return data; // default implementation, no formatting
+  extractData(res) {
+    return res; // default implementation, no formatting
   }
 }
 

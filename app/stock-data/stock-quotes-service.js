@@ -1,24 +1,32 @@
 import ApiRequestService from "./api-request-service";
 import * as apiUtils from "./api-utils";
-import { APIS } from "../constants";
 import { symbols } from "./config";
+// import { APIS } from "../constants";
 
 class StockQuotesService extends ApiRequestService {
-  getUrl() {
-    return process.env.NODE_ENV === "production" ?
-      this.getQuotesUrl(symbols) : "/quotes.mock.json";
+  constructor($q, apiSelector, $http) {
+    super($q, apiSelector);
+    this.$http = $http;
   }
-  formatData(data) {
-    return this.extractQuotes(data);
+  fetchData() {
+    const url = process.env.NODE_ENV === "production" ?
+      this.getQuotesUrl(symbols) : "/quotes.mock.json";
+    return this.$http.get(url);
+  }
+  extractData(res) {
+    return this.extractQuotes(res.data);
   }
   onUpdateApi(api) {
     switch(api) {
-      case APIS.YAHOO:
-      default:
+      // case APIS.YAHOO:
+      default: {
         this.getQuotesUrl = apiUtils.yahoo.urlUtils.getQuotesUrl;
         this.extractQuotes = apiUtils.yahoo.dataUtils.extractQuotes;
+      }
     }
   }
 }
+
+StockQuotesService.$inject = ["$q", "apiSelector", "$http"];
 
 export default StockQuotesService;

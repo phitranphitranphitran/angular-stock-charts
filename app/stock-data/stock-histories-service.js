@@ -1,24 +1,32 @@
 import ApiRequestService from "./api-request-service";
 import * as apiUtils from "./api-utils";
-import { APIS } from "../constants";
 import { symbols, startDate, endDate } from "./config";
+// import { APIS } from "../constants";
 
 class StockHistoriesService extends ApiRequestService {
-  getUrl() {
-    return process.env.NODE_ENV === "production" ?
-      this.getHistoriesUrl(symbols, startDate, endDate) : "/histories.mock.json";
+  constructor($q, apiSelector, $http) {
+    super($q, apiSelector);
+    this.$http = $http;
   }
-  formatData(data) {
-    return this.extractHistories(data);
+  fetchData() {
+    const url = process.env.NODE_ENV === "production" ?
+      this.getHistoriesUrl(symbols, startDate, endDate) : "/histories.mock.json";
+    return this.$http.get(url);
+  }
+  extractData(res) {
+    return this.extractHistories(res.data);
   }
   onUpdateApi(api) {
     switch(api) {
-      case APIS.YAHOO:
-      default:
+      // case APIS.YAHOO:
+      default: {
         this.getHistoriesUrl = apiUtils.yahoo.urlUtils.getHistoriesUrl;
         this.extractHistories = apiUtils.yahoo.dataUtils.extractHistories;
+      }
     }
   }
 }
+
+StockHistoriesService.$inject = ["$q", "apiSelector", "$http"];
 
 export default StockHistoriesService;

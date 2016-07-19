@@ -12,6 +12,7 @@ angular.module("app.companiesTable", [
     template,
     controller,
     bindings: {
-      activeStock: "="
+      getActiveStock: "&",
+      setActiveStock: "&"
     }
   });

@@ -46,7 +46,7 @@ function PriceHistoryChartController($scope, stockData, apiSelector) {
     stockData.get().then(data => {
       // expects a hash of companies' stock price histories
       this.histories = data.histories;
-      updateChart(this.activeStock);
+      updateChart(this.getActiveStock());
     });
   };
 
@@ -56,7 +56,7 @@ function PriceHistoryChartController($scope, stockData, apiSelector) {
   $scope.$watch(() => apiSelector.getApi(), getHistories);
 
   // update chart series and labels when activeStock changes
-  $scope.$watch(() => this.activeStock, updateChart);
+  $scope.$watch(() => this.getActiveStock(), updateChart);
 }
 
 PriceHistoryChartController.$inject = ["$scope", "stockData", "apiSelector"];

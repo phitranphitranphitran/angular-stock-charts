@@ -1,5 +1,46 @@
+import { getQuotesUrl, getHistoriesUrl } from "./url-utils";
+
+// sends 2 simultaneous network requests: one for stock quotes, one for stock histories
+export function fetchData($http, $q) {
+  return function(symbols, startDate, endDate) {
+    let quotesUrl;
+    let historiesUrl;
+    // make real API request only when in production or adding stocks
+    if (process.env.NODE_ENV === "production" || symbols) {
+      quotesUrl = getQuotesUrl(symbols);
+      historiesUrl = getHistoriesUrl(symbols, startDate, endDate);
+    // get mock data for initial load in development
+    } else {
+      quotesUrl = "/quotes.mock.json";
+      historiesUrl = "/histories.mock.json";
+    }
+    return $q.all([
+      $http.get(quotesUrl),
+      $http.get(historiesUrl)
+    ]);
+  };
+}
+
+// formats and aggregates data received from API calls for use with directives and controllers
+export function extractData(res) {
+  if (dataIsNull(res)) {
+    return false;
+  }
+  const quotes = extractQuotes(res[0].data);
+  const histories = extractHistories(res[1].data);
+  const combined = { quotes, histories };
+  combined.quotes.forEach(quote => {
+    const { symbol } = quote;
+    // give quotes access to histories, but keep as array
+    quote.history = histories[symbol].history;
+    // give histories access to quotes, but keep as object
+    histories[symbol] = Object.assign(histories[symbol], quote);
+  });
+  return combined;
+}
+
 // convert to hash, take only necessary data and simplify property names
-export function extractQuotes(data) {
+function extractQuotes(data) {
   let quotes = data.query.results.quote;
   if (!quotes.length) {
     quotes = [quotes];
@@ -34,7 +75,7 @@ export function extractQuotes(data) {
 }
 
 // transforms raw API data points to a hash of price histories for each company
-export function extractHistories(data) {
+function extractHistories(data) {
   const histories = createHistoriesHash(data);
   // sort each company's data series
   for (let symbol in histories) {
@@ -70,4 +111,9 @@ export function extractHistories(data) {
     // Yahoo API gives data points in descending time; must reverse for Highcharts
     return series.reverse();
   }
+}
+
+// determines from the response if no data is available or the request was invalid
+function dataIsNull(res) {
+  return !res[1].data.query.results;
 }

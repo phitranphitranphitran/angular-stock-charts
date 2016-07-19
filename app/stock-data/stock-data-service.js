@@ -9,26 +9,28 @@ class StockDataService {
     this.$q = $q;
     this.apiSelector = apiSelector;
 
-    this.data = false; // persist data to minimize network requests
+    this.data = false;
     this.fetching = false;
+
+    // apiSelector.listen(false, (event, api) => {
+    //   this.onUpdateApi(api);
+    // });
   }
 
   // primary getter method
-  // only sends network requests after an API change or when no data is iniitally present.
-  // if symbols arg is present, then it's an add stock request
+  // only sends network requests after an API change or when no data is initially present.
+  // if "symbols" arg is present, that means new stock data is to be added
   get(symbols) {
-    // for when a get() call occurs when already fetching; returns the first promise
+    // for when a get() call occurs when already fetching; returns the original promise
     if (this.fetching) {
       return this.fetching;
     }
     // get() will configure itself to API changes automatically
-    // so client code does not need to call onUpdateApi.
     // small note: an API change won't affect the service if done while fetching
     const api = this.apiSelector.getApi();
     if (this.api !== api) {
       this.api = api;
       this.onUpdateApi(api);
-      this.data = false;
     }
     // doesn't fetch if data is already present from prior network request
     if (this.data && !symbols) {
@@ -36,69 +38,43 @@ class StockDataService {
     }
 
     return this.fetching = this.$q((resolve, reject) => {
-      return this.fetchData(symbols)
+      // fetchData varies by API
+      return this.fetchData(symbols || defaultSymbols, startDate, endDate)
+        // extractData varies by API
         .then(res => this.extractData(res))
         .then(data => {
+          this.fetching = false;
+          if (!data) {
+            return reject(new Error("No stock data, please double check the symbol"));
+          }
           if (!symbols) {
             this.data = data;
           } else {
-            this.data = {
-              quotes: [ ...this.data.quotes, ...data.quotes ],
-              histories: { ...this.data.histories, ...data.histories }
-            };
+            this.data = this.combineData(this.data, data);
           }
-          this.fetching = false;
           return resolve(data);
         })
         .catch(reject);
     });
   }
 
-  // sends 2 simultaneous network requests: one for stock quotes, one for stock histories
-  fetchData(symbols) {
-    let quotesUrl;
-    let historiesUrl;
-    // make real API request only when in production or adding stocks
-    if (process.env.NODE_ENV === "production" || symbols) {
-      quotesUrl = this.getQuotesUrl(symbols || defaultSymbols);
-      historiesUrl = this.getHistoriesUrl(symbols || defaultSymbols, startDate, endDate);
-    // get mock data for initial load in development
-    } else {
-      quotesUrl = "/quotes.mock.json";
-      historiesUrl = "/histories.mock.json";
-    }
-    return this.$q.all([
-      this.$http.get(quotesUrl),
-      this.$http.get(historiesUrl)
-    ]);
-  }
-
-  // formats and aggregates data received from API calls for use with directives and controllers
-  extractData(res) {
-    const quotes = this.extractQuotes(res[0].data);
-    const histories = this.extractHistories(res[1].data);
-    const combined = { quotes, histories };
-    combined.quotes.forEach(quote => {
-      const { symbol } = quote;
-      // give quotes access to histories, but keep as array
-      quote.history = histories[symbol].history;
-      // give histories access to quotes, but keep as object
-      histories[symbol] = Object.assign(histories[symbol], quote);
-    });
-    return combined;
-  }
-
-  // on API change, simply replace get- and extract- methods with the API-specific ones from apiUtils
+  // on API change, simply replace fetchData and extractData with API-specific methods from apiUtils
   onUpdateApi(api) {
+    this.data = false;
     switch(api) {
       // case APIS.YAHOO:
       default: {
-        this.getQuotesUrl = apiUtils.yahoo.urlUtils.getQuotesUrl;
-        this.getHistoriesUrl = apiUtils.yahoo.urlUtils.getHistoriesUrl;
-        this.extractQuotes = apiUtils.yahoo.dataUtils.extractQuotes;
-        this.extractHistories = apiUtils.yahoo.dataUtils.extractHistories;
+        this.fetchData = apiUtils.yahoo.fetchData(this.$http, this.$q);
+        this.extractData = apiUtils.yahoo.extractData;
       }
     }
+  }
+
+  combineData(data, newData) {
+    return {
+      quotes: [ ...data.quotes, ...newData.quotes ],
+      histories: { ...data.histories, ...newData.histories }
+    };
   }
 
   add(symbol) {

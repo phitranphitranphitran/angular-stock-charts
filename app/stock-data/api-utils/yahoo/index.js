@@ -1,7 +1,3 @@
-import * as urlUtils from "./url-utils";
-import * as dataUtils from "./data-utils";
+import { fetchData, extractData } from "./data-utils";
 
-export {
-  urlUtils,
-  dataUtils
-};
+export { fetchData, extractData };

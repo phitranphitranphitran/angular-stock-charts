@@ -1,13 +1,15 @@
-function AddStockFormController($rootScope, stockData, addStockEvent, toastr) {
+function AddStockFormController(stockData, addStockEvent, toastr) {
+  this.fetching = false;
   this.onSubmit = (symbol) => {
     symbol = symbol.toUpperCase();
     return stockData.hasSymbol(symbol)
       .then(hasSymbol => {
         if (hasSymbol) {
           toastr.info(`${symbol} is already present`);
-          return;
+        } else {
+          this.fetching = true;
+          return stockData.add(symbol);
         }
-        return stockData.add(symbol);
       })
       .then(data => {
         if (data) {
@@ -16,11 +18,18 @@ function AddStockFormController($rootScope, stockData, addStockEvent, toastr) {
         }
       })
       .catch(err => {
-        toastr.error("Error - Request failed");
+        if (err.message) {
+          toastr.error(err.message);
+        } else {
+          toastr.error("Error - Request failed");
+        }
+      })
+      .finally(() => {
+        this.fetching = false;
       });
   };
 }
 
-AddStockFormController.$inject = ["$rootScope", "stockData", "addStockEvent", "toastr"];
+AddStockFormController.$inject = ["stockData", "addStockEvent", "toastr"];
 
 export default AddStockFormController;

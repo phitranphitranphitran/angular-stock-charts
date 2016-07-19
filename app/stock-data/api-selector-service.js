@@ -14,7 +14,9 @@ function ApiSelectorService($rootScope) {
 
   this.listen = (scope, callback) => {
     const handler = $rootScope.$on("apiChanged", callback);
-    scope.$on("$destroy", handler);
+    if (scope) {
+      scope.$on("$destroy", handler);
+    }
   };
 }
 

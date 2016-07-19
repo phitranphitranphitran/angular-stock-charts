@@ -4,7 +4,9 @@ function AddStockEventService($rootScope) {
   };
   this.listen = (scope, callback) => {
     const handler = $rootScope.$on("stockAdded", callback);
-    scope.$on("$destroy", handler);
+    if (scope) {
+      scope.$on("$destroy", handler);
+    }
   };
 }
 

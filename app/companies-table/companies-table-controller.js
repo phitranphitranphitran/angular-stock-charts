@@ -1,4 +1,4 @@
-function CompaniesTableController($scope, stockData, apiSelector) {
+function CompaniesTableController($scope, stockData, apiSelector, activeStock) {
   const getQuotes = () => {
     stockData.get().then(data => {
       // expects an array of company stock quotes
@@ -29,8 +29,11 @@ function CompaniesTableController($scope, stockData, apiSelector) {
       return name.includes(searchString) || symbol.includes(searchString);
     };
   };
+
+  this.getActiveStock = activeStock.getActiveStock;
+  this.setActiveStock = activeStock.setActiveStock;
 }
 
-CompaniesTableController.$inject = ["$scope", "stockData", "apiSelector"];
+CompaniesTableController.$inject = ["$scope", "stockData", "apiSelector", "activeStock"];
 
 export default CompaniesTableController;

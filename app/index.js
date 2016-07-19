@@ -1,8 +1,8 @@
 import angular from "angular";
 
-import "./navbar"; //app.navbar module
-import "./companies-table"; // app.companiesTable module
+import "./navbar"; // app.navbar module
 import "./price-history-chart"; // app.priceHistoryChart module
+import "./companies-table"; // app.companiesTable module
 import "./footer-bar"; // app.footerBar module
 
 import template from "./app.html";

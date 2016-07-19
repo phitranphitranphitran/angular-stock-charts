@@ -52,10 +52,9 @@ function PriceHistoryChartController($scope, stockData, apiSelector, activeStock
 
   getHistories();
 
-  // reload data and chart on API change or new stock added
-  $scope.$watch(() => apiSelector.getApi(), getHistories);
-
-  // update chart series and labels when activeStock changes
+  // reload data and chart on API or active stock change
+  apiSelector.listen($scope, getHistories);
+  // new stock becomes active stock by default
   $scope.$watch(() => activeStock.getActiveStock(), getHistories);
 }
 

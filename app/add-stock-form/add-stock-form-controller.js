@@ -1,5 +1,6 @@
 function AddStockFormController($rootScope, stockData, addStockEvent) {
   this.onSubmit = (symbol) => {
+    // TODO: validate symbol
     return stockData.add(symbol)
       .then(() => {
         addStockEvent.broadcast(symbol);

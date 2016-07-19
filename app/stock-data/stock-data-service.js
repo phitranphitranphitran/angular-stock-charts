@@ -48,7 +48,6 @@ class StockDataService {
             };
           }
           this.fetching = false;
-          console.log(this.data);
           return resolve(data);
         })
         .catch(reject);
@@ -57,17 +56,17 @@ class StockDataService {
 
   // sends 2 simultaneous network requests: one for stock quotes, one for stock histories
   fetchData(symbols) {
-    if (!symbols) {
-      symbols = defaultSymbols;
+    let quotesUrl;
+    let historiesUrl;
+    // make real API request only when in production or adding stocks
+    if (process.env.NODE_ENV === "production" || symbols) {
+      quotesUrl = this.getQuotesUrl(symbols || defaultSymbols);
+      historiesUrl = this.getHistoriesUrl(symbols || defaultSymbols, startDate, endDate);
+    // get mock data for initial load in development
+    } else {
+      quotesUrl = "/quotes.mock.json";
+      historiesUrl = "/histories.mock.json";
     }
-    const quotesUrl =
-      // process.env.NODE_ENV === "production" ?
-      this.getQuotesUrl(symbols) ;
-      // : "/quotes.mock.json";
-    const historiesUrl =
-      // process.env.NODE_ENV === "production" ?
-      this.getHistoriesUrl(symbols, startDate, endDate) ;
-      // : "/histories.mock.json";
     return this.$q.all([
       this.$http.get(quotesUrl),
       this.$http.get(historiesUrl)
@@ -103,11 +102,7 @@ class StockDataService {
   }
 
   add(symbol) {
-    return this.$q((resolve, reject) => {
-      symbol = symbol.toUpperCase();
-      // if invalid input, reject
-      return this.get([symbol]).then(resolve).catch(reject);
-    });
+    return this.get([symbol]);
   }
 
 }

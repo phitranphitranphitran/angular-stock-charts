@@ -1,4 +1,4 @@
-function CompaniesTableController($scope, stockData, apiSelector, activeStock, addStockEvent) {
+function CompaniesTableController($scope, stockData, activeStock, apiSelector, addStockEvent) {
   const getQuotes = () => {
     stockData.get().then(data => {
       // expects an array of company stock quotes
@@ -9,12 +9,15 @@ function CompaniesTableController($scope, stockData, apiSelector, activeStock, a
   getQuotes();
 
   // reload data on API change or new stock added
-  $scope.$watch(() => apiSelector.getApi(), getQuotes);
-  addStockEvent.listen(getQuotes);
+  apiSelector.listen($scope, getQuotes);
+  addStockEvent.listen($scope, getQuotes);
 
-  // table rows initially ordered by symbol ascending
+  // table rows initially ordered by symbol, ascending
   this.orderByField = "symbol";
   this.orderReverse = false;
+
+  this.getActiveStock = activeStock.getActiveStock;
+  this.setActiveStock = activeStock.setActiveStock;
 
   // will show company in table if searchString is substring of name or symbol
   this.filterByNameOrSymbol = (searchString) => {
@@ -30,11 +33,8 @@ function CompaniesTableController($scope, stockData, apiSelector, activeStock, a
       return name.includes(searchString) || symbol.includes(searchString);
     };
   };
-
-  this.getActiveStock = activeStock.getActiveStock;
-  this.setActiveStock = activeStock.setActiveStock;
 }
 
-CompaniesTableController.$inject = ["$scope", "stockData", "apiSelector", "activeStock", "addStockEvent"];
+CompaniesTableController.$inject = ["$scope", "stockData", "activeStock", "apiSelector", "addStockEvent"];
 
 export default CompaniesTableController;

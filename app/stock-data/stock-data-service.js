@@ -105,6 +105,17 @@ class StockDataService {
     return this.get([symbol]);
   }
 
+  hasSymbol(symbol) {
+    // return promise because the symbol may already be fetching
+    return this.$q(resolve => {
+      if (this.fetching) {
+        // use histories hash for faster lookpup than quotes array
+        return this.fetching.then(data => data.histories.hasOwnProperty(symbol));
+      }
+      return resolve(this.data.histories.hasOwnProperty(symbol));
+    });
+  }
+
 }
 
 StockDataService.$inject = ["$http", "$q", "apiSelector"];

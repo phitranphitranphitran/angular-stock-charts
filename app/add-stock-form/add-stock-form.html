@@ -1,4 +1,5 @@
 <form ng-submit="$ctrl.onSubmit(symbol)">
-  <input ng-model="symbol" type="text" placeholder="Enter a stock symbol" class="form-control" />
+  <input ng-model="symbol" type="text" placeholder="Enter a stock symbol" class="form-control"
+    pattern="[A-Za-z0-9]+" title="Alphanumeric characters only" required />
   <button type="submit" class="btn btn-default">Add Stock</button>
 </form>

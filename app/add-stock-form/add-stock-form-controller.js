@@ -1,14 +1,26 @@
-function AddStockFormController($rootScope, stockData, addStockEvent) {
+function AddStockFormController($rootScope, stockData, addStockEvent, toastr) {
   this.onSubmit = (symbol) => {
-    // TODO: validate symbol
-    return stockData.add(symbol)
-      .then(() => {
-        addStockEvent.broadcast(symbol);
+    symbol = symbol.toUpperCase();
+    return stockData.hasSymbol(symbol)
+      .then(hasSymbol => {
+        if (hasSymbol) {
+          toastr.info(`${symbol} is already present`);
+          return;
+        }
+        return stockData.add(symbol);
       })
-      .catch(console.error);
+      .then(data => {
+        if (data) {
+          toastr.success(`${symbol} added`);
+          addStockEvent.broadcast(symbol);
+        }
+      })
+      .catch(err => {
+        toastr.error("Error - Request failed");
+      });
   };
 }
 
-AddStockFormController.$inject = ["$rootScope", "stockData", "addStockEvent"];
+AddStockFormController.$inject = ["$rootScope", "stockData", "addStockEvent", "toastr"];
 
 export default AddStockFormController;

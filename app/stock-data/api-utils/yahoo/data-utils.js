@@ -3,17 +3,8 @@ import { getQuotesUrl, getHistoriesUrl } from "./url-utils";
 // sends 2 simultaneous network requests: one for stock quotes, one for stock histories
 export function fetchData($http, $q) {
   return function(symbols, startDate, endDate) {
-    let quotesUrl;
-    let historiesUrl;
-    // make real API request only when in production or adding stocks
-    if (process.env.NODE_ENV === "production" || symbols) {
-      quotesUrl = getQuotesUrl(symbols);
-      historiesUrl = getHistoriesUrl(symbols, startDate, endDate);
-    // get mock data for initial load in development
-    } else {
-      quotesUrl = "/quotes.mock.json";
-      historiesUrl = "/histories.mock.json";
-    }
+    const quotesUrl = getQuotesUrl(symbols);
+    const historiesUrl = getHistoriesUrl(symbols, startDate, endDate);
     return $q.all([
       $http.get(quotesUrl),
       $http.get(historiesUrl)
@@ -43,18 +34,20 @@ export function extractData(res) {
 function extractQuotes(data) {
   let quotes = data.query.results.quote;
   if (!quotes.length) {
-    quotes = [quotes];
+    quotes = [quotes]; // if just one quote, put in array
   }
   return quotes.map(company => ({
     symbol: company["Symbol"],
     name: company["Name"],
     currentPrice: Number(company["LastTradePriceOnly"]),
-    marketCapFormatted: company["MarketCapitalization"],
-    marketCap: marketCapToNum(company["MarketCapitalization"])
+    marketCapFormatted: company["MarketCapitalization"] || "N/A",
+    marketCap: company["MarketCapitalization"] ?
+      marketCapToNum(company["MarketCapitalization"]) : 0
   }));
 
   // converts a formatted market cap string from the API response into a Number
   function marketCapToNum(mcString) {
+
     const suffix = mcString.charAt(mcString.length-1);
     let mcNum;
     switch(suffix) {

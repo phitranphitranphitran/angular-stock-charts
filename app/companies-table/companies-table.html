@@ -36,7 +36,7 @@
         ng-class="{'active-row': company.symbol === $ctrl.getActiveStock()}">
       <td><span ng-bind="company.symbol"></span></td>
       <td><span ng-bind="company.name"></span></td>
-      <td><span ng-bind="company.currentPrice"></span></td>
+      <td><span ng-bind="company.currentPrice | currency:'' "></span></td>
       <td><span ng-bind="company.marketCapFormatted"></span></td>
     </tr>
   </tbody>

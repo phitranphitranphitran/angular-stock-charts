@@ -1,9 +1,13 @@
 // convert to hash, take only necessary data and simplify property names
 export function extractQuotes(data) {
-  return data.query.results.quote.map(company => ({
+  let quotes = data.query.results.quote;
+  if (!quotes.length) {
+    quotes = [quotes];
+  }
+  return quotes.map(company => ({
     symbol: company["Symbol"],
     name: company["Name"],
-    currentPrice: Number(company["LastTradePriceOnly"]).toFixed(2),
+    currentPrice: Number(company["LastTradePriceOnly"]),
     marketCapFormatted: company["MarketCapitalization"],
     marketCap: marketCapToNum(company["MarketCapitalization"])
   }));
@@ -59,7 +63,7 @@ export function extractHistories(data) {
   // transforms a data point to a format compatible with Highcharts
   function formatDataPoint(dataPoint) {
     const time = (new Date(dataPoint["Date"])).getTime();
-    const price = +Number(dataPoint["Close"]).toFixed(2);
+    const price = Number(dataPoint["Close"]);
     return [time, price];
   }
   function sortDataPoints(series) {

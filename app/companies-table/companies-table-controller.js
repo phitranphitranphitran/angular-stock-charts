@@ -1,4 +1,4 @@
-function CompaniesTableController($scope, stockData, apiSelector, activeStock) {
+function CompaniesTableController($scope, stockData, apiSelector, activeStock, addStockEvent) {
   const getQuotes = () => {
     stockData.get().then(data => {
       // expects an array of company stock quotes
@@ -8,8 +8,9 @@ function CompaniesTableController($scope, stockData, apiSelector, activeStock) {
 
   getQuotes();
 
-  // reload data on API change
+  // reload data on API change or new stock added
   $scope.$watch(() => apiSelector.getApi(), getQuotes);
+  addStockEvent.listen(getQuotes);
 
   // table rows initially ordered by symbol ascending
   this.orderByField = "symbol";
@@ -34,6 +35,6 @@ function CompaniesTableController($scope, stockData, apiSelector, activeStock) {
   this.setActiveStock = activeStock.setActiveStock;
 }
 
-CompaniesTableController.$inject = ["$scope", "stockData", "apiSelector", "activeStock"];
+CompaniesTableController.$inject = ["$scope", "stockData", "apiSelector", "activeStock", "addStockEvent"];
 
 export default CompaniesTableController;

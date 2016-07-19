@@ -1,5 +1,5 @@
 import * as apiUtils from "./api-utils";
-import { symbols, startDate, endDate } from "./config";
+import { symbols as defaultSymbols, startDate, endDate } from "./config";
 // import { APIS } from "../constants";
 
 class StockDataService {
@@ -14,8 +14,9 @@ class StockDataService {
   }
 
   // primary getter method
-  // only sends network requests after an API change or when no data is iniitally present
-  get() {
+  // only sends network requests after an API change or when no data is iniitally present.
+  // if symbols arg is present, then it's an add stock request
+  get(symbols) {
     // for when a get() call occurs when already fetching; returns the first promise
     if (this.fetching) {
       return this.fetching;
@@ -29,28 +30,44 @@ class StockDataService {
       this.onUpdateApi(api);
       this.data = false;
     }
+    // doesn't fetch if data is already present from prior network request
+    if (this.data && !symbols) {
+      return this.$q(resolve => resolve(this.data));
+    }
+
     return this.fetching = this.$q((resolve, reject) => {
-      // doesn't fetch if data is already present from prior network request
-      if (!this.data) {
-        return this.fetchData()
-          .then(res => this.extractData(res))
-          .then(data => {
+      return this.fetchData(symbols)
+        .then(res => this.extractData(res))
+        .then(data => {
+          if (!symbols) {
             this.data = data;
-            this.fetching = false;
-            return resolve(data);
-          })
-          .catch(reject);
-      }
-      return resolve(this.data);
+          } else {
+            this.data = {
+              quotes: [ ...this.data.quotes, ...data.quotes ],
+              histories: { ...this.data.histories, ...data.histories }
+            };
+          }
+          this.fetching = false;
+          console.log(this.data);
+          return resolve(data);
+        })
+        .catch(reject);
     });
   }
 
   // sends 2 simultaneous network requests: one for stock quotes, one for stock histories
-  fetchData() {
-    const quotesUrl = process.env.NODE_ENV === "production" ?
-      this.getQuotesUrl(symbols) : "/quotes.mock.json";
-    const historiesUrl = process.env.NODE_ENV === "production" ?
-      this.getHistoriesUrl(symbols, startDate, endDate) : "/histories.mock.json";
+  fetchData(symbols) {
+    if (!symbols) {
+      symbols = defaultSymbols;
+    }
+    const quotesUrl =
+      // process.env.NODE_ENV === "production" ?
+      this.getQuotesUrl(symbols) ;
+      // : "/quotes.mock.json";
+    const historiesUrl =
+      // process.env.NODE_ENV === "production" ?
+      this.getHistoriesUrl(symbols, startDate, endDate) ;
+      // : "/histories.mock.json";
     return this.$q.all([
       this.$http.get(quotesUrl),
       this.$http.get(historiesUrl)
@@ -83,6 +100,14 @@ class StockDataService {
         this.extractHistories = apiUtils.yahoo.dataUtils.extractHistories;
       }
     }
+  }
+
+  add(symbol) {
+    return this.$q((resolve, reject) => {
+      symbol = symbol.toUpperCase();
+      // if invalid input, reject
+      return this.get([symbol]).then(resolve).catch(reject);
+    });
   }
 
 }

@@ -1,4 +1,4 @@
-// take only necessary data and simplify property names
+// convert to hash, take only necessary data and simplify property names
 export function extractQuotes(data) {
   return data.query.results.quote.map(company => ({
     symbol: company["Symbol"],
@@ -35,7 +35,7 @@ export function extractHistories(data) {
   // sort each company's data series
   for (let symbol in histories) {
     if (histories.hasOwnProperty(symbol)) {
-      histories[symbol] = sortDataPoints(histories[symbol]);
+      histories[symbol].history = sortDataPoints(histories[symbol].history);
     }
   }
   return histories;
@@ -47,9 +47,12 @@ export function extractHistories(data) {
     data.query.results.quote.forEach(dataPoint => {
       const symbol = dataPoint["Symbol"];
       if (!histories.hasOwnProperty(symbol)) {
-        histories[symbol] = [];
+        histories[symbol] = {
+          name: symbol,
+          history: []
+        };
       }
-      histories[symbol].push(formatDataPoint(dataPoint));
+      histories[symbol].history.push(formatDataPoint(dataPoint));
     });
     return histories;
   }

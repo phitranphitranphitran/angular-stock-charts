@@ -6,15 +6,13 @@ import { symbols, startDate, endDate } from "./config";
 class StockHistoriesService extends ApiRequestService {
   getUrl() {
     return process.env.NODE_ENV === "production" ?
-      this.getHistoriesUrl(symbols, startDate, endDate) :
-      "/histories.mock.json";
+      this.getHistoriesUrl(symbols, startDate, endDate) : "/histories.mock.json";
   }
   formatData(data) {
     return this.extractHistories(data);
   }
   onUpdateApi(api) {
     switch(api) {
-      // yahoo API is default
       case APIS.YAHOO:
       default:
         this.getHistoriesUrl = apiUtils.yahoo.urlUtils.getHistoriesUrl;
@@ -22,7 +20,5 @@ class StockHistoriesService extends ApiRequestService {
     }
   }
 }
-
-// StockHistoriesService.$inject = ["$http", "$q", "apiSelector"];
 
 export default StockHistoriesService;

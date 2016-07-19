@@ -17,11 +17,13 @@ class ApiRequestService {
     this.fetching = false;
   }
   get() {
+    // for when a get() call occurs when already fetching; returns the first promise
     if (this.fetching) {
       return this.fetching;
     }
     // get() will configure itself to API changes automatically
-    // so client code does not need to call onUpdateApi
+    // so client code does not need to call onUpdateApi.
+    // small note: an API change won't affect the service if done while fetching
     const api = this.apiSelector.getApi();
     if (this.api !== api) {
       this.api = api;

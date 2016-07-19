@@ -1,6 +1,6 @@
 import { startDate, endDate } from "../stock-data/config";
 
-function PriceHistoryChartController($scope, stockHistories, apiSelector) {
+function PriceHistoryChartController($scope, stockData, apiSelector) {
   // highcharts-ng config object
   this.chartConfig = {
     options: {
@@ -15,7 +15,6 @@ function PriceHistoryChartController($scope, stockHistories, apiSelector) {
       style: {
         "fontFamily": ["Montserrat", "sans-serif"]
       }
-      // text: `${activeStock} Stock Price From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
     },
     xAxis: {
       title: { text: "Date" },
@@ -23,25 +22,30 @@ function PriceHistoryChartController($scope, stockHistories, apiSelector) {
       gridLineWidth: 1
     },
     yAxis: {
-      title: { text: "Stock Price (USD)" }
-    },
-    series: [{
-      // name: this.activeStock,
-      // data: this.histories ? this.histories[this.activeStock] : []
-    }]
+      title: { text: "Closing Price (USD)" }
+    }
   };
 
   const updateChart = (activeStock) => {
-    this.chartConfig.title.text =
-      `${activeStock} Stock Price From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
-    this.chartConfig.series[0].name = activeStock;
-    this.chartConfig.series[0].data = this.histories ?
-      this.histories[activeStock] : [];
+    this.chartConfig = Object.assign(this.chartConfig, {
+      title: {
+        text: `${activeStock} Stock Price From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`
+      },
+      series: [{
+        name: this.histories ? this.histories[activeStock].name : "",
+        data: this.histories ? this.histories[activeStock].history : [],
+        marker: { symbol: "circle" },
+        tooltip: {
+          pointFormat: `<span style="color:{point.color}">\u25CF</span> ${activeStock}: <b>{point.y}</b><br/>`
+        }
+      }]
+    });
   };
 
   const getHistories = () => {
-    stockHistories.get().then(histories => {
-      this.histories = histories;
+    stockData.get().then(data => {
+      // expects a hash of companies' stock price histories
+      this.histories = data.histories;
       updateChart(this.activeStock);
     });
   };
@@ -55,6 +59,6 @@ function PriceHistoryChartController($scope, stockHistories, apiSelector) {
   $scope.$watch(() => this.activeStock, updateChart);
 }
 
-PriceHistoryChartController.$inject = ["$scope", "stockHistories", "apiSelector"];
+PriceHistoryChartController.$inject = ["$scope", "stockData", "apiSelector"];
 
 export default PriceHistoryChartController;

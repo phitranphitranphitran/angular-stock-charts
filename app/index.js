@@ -10,6 +10,7 @@ import "./add-stock-form"; // app.addStockForm module
 import "./companies-table"; // app.companiesTable module
 import "./footer-bar"; // app.footerBar module
 import "./requests-list"; // app.requestsList module
+import "./api-selector"; // app.apiSelector module
 
 import template from "./app.html";
 import controller from "./app-controller";
@@ -20,7 +21,8 @@ angular.module("app", [
     "app.addStockForm",
     "app.companiesTable",
     "app.footerBar",
-    "app.requestsList"
+    "app.requestsList",
+    "app.apiSelector"
   ])
   .component("app", {
     template,

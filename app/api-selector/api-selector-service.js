@@ -1,7 +1,5 @@
-import { APIS } from "../constants";
-
-function ApiSelectorService($rootScope) {
-  let selected = APIS.YAHOO;
+function ApiSelectorService($rootScope, apiConstants) {
+  let selected = apiConstants.yahoo;
 
   this.setApi = (api) => {
     selected = api;
@@ -20,6 +18,6 @@ function ApiSelectorService($rootScope) {
   };
 }
 
-ApiSelectorService.$inject = ["$rootScope"];
+ApiSelectorService.$inject = ["$rootScope", "apiConstants"];
 
 export default ApiSelectorService;

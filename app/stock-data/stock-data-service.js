@@ -1,10 +1,9 @@
 import * as apiUtils from "./api-utils";
 import { startDate, endDate } from "./config";
-// import { APIS } from "../constants";
 
 class StockDataService {
 
-  constructor($http, $q, symbolsStore, apiSelector, toastr) {
+  constructor($http, $q, symbolsStore, apiSelector, apiConstants, toastr) {
     this.$http = $http;
     this.$q = $q;
     this.symbolsStore = symbolsStore;
@@ -24,7 +23,7 @@ class StockDataService {
     this.data = false;
     this.requests = false;
     switch(api) {
-      // case APIS.YAHOO:
+      // case apiConstants.yahoo:
       default: {
         this.sendRequest = apiUtils.yahoo.sendRequest(this.$http, this.$q);
         this.extractData = apiUtils.yahoo.extractData;
@@ -181,6 +180,6 @@ class StockDataService {
 
 }
 
-StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector", "toastr"];
+StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector", "apiConstants", "toastr"];
 
 export default StockDataService;

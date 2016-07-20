@@ -1,16 +1,16 @@
 import * as apiUtils from "./api-utils";
-import { symbols as defaultSymbols, startDate, endDate } from "./config";
+import { startDate, endDate } from "./config";
 // import { APIS } from "../constants";
 
 class StockDataService {
 
-  constructor($http, $q, apiSelector) {
+  constructor($http, $q, symbolsStore, apiSelector) {
     this.$http = $http;
     this.$q = $q;
     this.apiSelector = apiSelector;
 
     this.onUpdateApi(apiSelector.getApi());
-    this.get(defaultSymbols);
+    this.get(symbolsStore.getSymbols());
 
     apiSelector.listen(false, (event, api) => {
       this.onUpdateApi(api);
@@ -152,6 +152,6 @@ class StockDataService {
 
 }
 
-StockDataService.$inject = ["$http", "$q", "apiSelector"];
+StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector"];
 
 export default StockDataService;

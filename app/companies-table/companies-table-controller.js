@@ -26,7 +26,7 @@ function CompaniesTableController($scope, stockData, activeStock, apiSelector, a
         return true;
       }
       // case insensitive
-      const name = company.name.toLowerCase();
+      const name = company.name ? company.name.toLowerCase() : "";
       const symbol = company.symbol.toLowerCase();
       searchString = searchString.toLowerCase();
 

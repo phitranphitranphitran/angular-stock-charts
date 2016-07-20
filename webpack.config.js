@@ -29,6 +29,10 @@ module.exports = {
         test: /\.css$/,
         loader: "style-loader!css-loader"
       },
+      {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+      },
       // for bootstrap
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
       { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },

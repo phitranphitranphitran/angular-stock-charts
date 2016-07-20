@@ -1,20 +1,18 @@
 import angular from "angular";
+import "angular-animate"; // ngAnimate module
 import "angular-toastr"; // toastr module
+import "angular-toastr/dist/angular-toastr.min.css";
 
 import "../stock-data"; // app.stockData module
 
 import RequestsListController from "./requests-list-controller";
 
 angular.module("app.requestsList", [
+    "ngAnimate",
     "toastr",
 
     "app.stockData"
   ])
-  .config(function(toastrConfig) {
-    angular.extend(toastrConfig, {
-      preventOpenDuplicates: true
-    });
-  })
   .component("requestsList", {
     controller: RequestsListController
   });

@@ -4,12 +4,12 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "gulp watch | webpack-dev-server --inline --hot --content-base ./public",
+    "start": "webpack-dev-server --inline --hot --content-base ./public",
     "test": "mocha --compilers js:babel-register --recursive",
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "start:prod": "node server.js",
-    "build:prod": "gulp | webpack --optimize-minimize",
+    "build:prod": "webpack --optimize-minimize",
     "postinstall": "npm run build:prod",
     "simulate-prod": "set NODE_ENV=production&&npm run build:prod&&npm run start:prod"
   },
@@ -37,13 +37,12 @@
     "css-loader": "^0.23.1",
     "express": "^4.13.4",
     "file-loader": "^0.9.0",
-    "gulp": "^3.9.1",
-    "gulp-cli": "^1.2.1",
-    "gulp-sass": "^2.3.1",
     "highcharts": "^4.2.5",
     "highcharts-ng": "0.0.11",
     "html-loader": "^0.4.3",
+    "node-sass": "^3.8.0",
     "normalize.css": "^4.2.0",
+    "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0"
@@ -52,7 +51,6 @@
     "chai": "^3.5.0",
     "eslint": "^2.10.2",
     "eslint-plugin-mocha": "^2.2.0",
-    "gulp-sourcemaps": "^2.0.0-alpha",
     "mocha": "^2.4.5",
     "webpack": "^1.13.0"
   }

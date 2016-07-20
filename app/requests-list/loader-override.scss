@@ -1,0 +1,14 @@
+// overrides to fit in the toast
+
+.loader {
+  font-size: 0.2em;
+  margin: 0 !important;
+  left: -7.5em;
+  bottom: -1em;
+}
+
+.toast-adding-text {
+  position: relative;
+  bottom: 0.3em;
+  left: 1em;
+}

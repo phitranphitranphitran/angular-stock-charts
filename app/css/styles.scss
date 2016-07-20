@@ -72,12 +72,6 @@ main {
   }
 }
 
-// custom toast needs !important to override
-.toast-adding {
-  background-image: url("/ellipsis-white.svg") !important;
-  background-color: $highlightColor !important;
-}
-
 // Companies Table
 // ----------------------------------------
 
@@ -121,6 +115,12 @@ main {
 
 hr {
   margin: 0.5em 0;
+}
+
+// custom toast needs !important to override
+.toast-adding {
+  background-image: none !important;
+  background-color: $highlightColor !important;
 }
 
 // Media Queries

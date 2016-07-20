@@ -1,6 +1,6 @@
-To add a new API to use, simply implement and export the required methods `fetchData` and `extractData`.
+To add a new stock data API to use, simply implement and export the required methods `sendRequest` and `extractData`.
 
-#### fetchData($http, $q) => function(symbols, startDate, endDate)
+#### sendRequest($http, $q) => function(symbols, startDate, endDate)
 
 Inside this method you can specify how the data will be fetched, i.e. the URL and querystrings.
 
@@ -38,7 +38,7 @@ Transforms the response object into a form usable by the `companies-table` and `
 
 Arguments:
 
-- `res`: the raw API response resulting from `fetchData`
+- `res`: the raw API response resulting from `sendRequest`
 
 Returns:
 
@@ -69,6 +69,8 @@ If the data is valid, then return an object with the following form at minimum:
     }
 }
 ```
+
+Timestamps should also be in chronological order, i.e. the data series must be sorted (a requirement by Highcharts).
 
 Example:
 

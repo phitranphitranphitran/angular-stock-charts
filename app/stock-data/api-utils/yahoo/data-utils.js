@@ -1,7 +1,7 @@
 import { getQuotesUrl, getHistoriesUrl } from "./url-utils";
 
 // sends 2 simultaneous network requests: one for stock quotes, one for stock histories
-export function fetchData($http, $q) {
+export function sendRequest($http, $q) {
   return function(symbols, startDate, endDate) {
     const quotesUrl = getQuotesUrl(symbols);
     const historiesUrl = getHistoriesUrl(symbols, startDate, endDate);

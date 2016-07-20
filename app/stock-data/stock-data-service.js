@@ -18,63 +18,70 @@ class StockDataService {
     });
   }
 
-  // on API change, simply replace fetchData and extractData with API-specific methods from apiUtils
+  // on API change, simply replace sendRequest and extractData with API-specific methods from apiUtils
   onUpdateApi(api) {
     this.data = false;
-    this.fetching = false;
+    this.requests = false;
     switch(api) {
       // case APIS.YAHOO:
       default: {
-        this.fetchData = apiUtils.yahoo.fetchData(this.$http, this.$q);
+        this.sendRequest = apiUtils.yahoo.sendRequest(this.$http, this.$q);
         this.extractData = apiUtils.yahoo.extractData;
       }
     }
   }
 
   // main getter method
-  // only sends network requests after an API change or when no data is initially present.
+  // returns a Promise that resolves to the stocks data
+  // determines when the Promise should resolve based on any ongoing requests
   // if "symbols" arg is present, that means new stock data is to be added
   get(symbols) {
-    // doesn't fetch if data is already present and no fetches are happening
-    if (this.data && !this.fetching && !symbols) {
+    // simply return data stored if no requests are happening
+    if (this.data && !this.requests && !symbols) {
       return this.$q(resolve => resolve(this.data));
     }
 
-    if (this.fetching) {
+    if (this.requests) {
+      // a get() call while requests are happening
       if (!symbols) {
-        // returns the updated data after all pending requests finish
-        const totalFetches = Object.keys(this.fetching).map(symbol => this.fetching[symbol]);
-        return this.$q.all(totalFetches).then(() => this.data);
-      } else {
-        const { fetching, toBeFetched } = this.getOngoingFetches(symbols);
-        // no new requests to be made
+        // return the updated data after all pending requests finish
+        const allRequests = Object.keys(this.requests).map(symbol => this.requests[symbol]);
+        return this.$q.all(allRequests).then(() => this.data);
+      }
+      // adding data while requests are ongoing, a little trickier
+      else {
+        const { requests, toBeFetched } = this.splitSymbolsByStatus(symbols);
         if (!toBeFetched.length) {
-          return this.$q.all(fetching).then(() => this.data);
+          return this.$q.all(requests).then(() => this.data);
         }
+        // a mix of ongoing and new requests; need all to resolve
         return this.$q.all([
-            ...fetching,
-            this.sendRequest(toBeFetched)
+            ...requests,
+            this.fetchData(toBeFetched)
           ])
           .then(() => this.data);
       }
     }
 
-    return this.sendRequest(symbols);
+    return this.fetchData(symbols);
   }
 
-  sendRequest(symbols) {
+  // sends the API request and extracts the data
+  // also handles bookkeeping of ongoing requests
+  fetchData(symbols) {
     const fetch = this.$q((resolve, reject) => {
-      // fetchData varies by API
-      return this.fetchData(symbols, startDate, endDate)
+      // sendRequest varies by API
+      return this.sendRequest(symbols, startDate, endDate)
         // extractData varies by API
         .then(res => this.extractData(res))
         .then(data => {
-          // clear references to the request in this.fetching
+          // clear all references to this request
           symbols.forEach(symbol => {
-            delete this.fetching[symbol];
+            delete this.requests[symbol];
           });
-          if (!Object.keys(this.fetching).length) {
-            this.fetching = false;
+          // if no more fetches, set to false ({} isn't falsey)
+          if (!Object.keys(this.requests).length) {
+            this.requests = false;
           }
           if (!data) {
             return reject(new Error("No stock data, please double check the symbol"));
@@ -86,17 +93,17 @@ class StockDataService {
         .catch(reject);
     });
 
-    if (!this.fetching) {
-      this.fetching = {};
+    if (!this.requests) {
+      this.requests = {};
     }
-
     symbols.forEach(symbol => {
-      this.fetching[symbol] = fetch;
+      this.requests[symbol] = fetch;
     });
 
     return fetch;
   }
 
+  // adds a single new stock data entry to the store
   add(symbol) {
     return this.$q((resolve, reject) => {
       if (this.hasSymbol(symbol)) {
@@ -105,10 +112,10 @@ class StockDataService {
           type: "duplicate"
         });
       }
-      if (this.fetching.hasOwnProperty(symbol)) {
+      if (this.requests.hasOwnProperty(symbol)) {
         return reject({
           message: `${symbol} is already being added`,
-          promise: this.fetching[symbol].then(resolve).catch(reject),
+          promise: this.requests[symbol].then(resolve).catch(reject), // try remove then resolve catch reject
           type: "fetching"
         });
       }
@@ -123,17 +130,17 @@ class StockDataService {
   // checks if requests for certain symbols are already being made.
   // returns an array of Promises for each symbol currently being requested
   // and an array of the symbols that are not being requested
-  getOngoingFetches(symbols) {
-    const fetching = [];
+  splitSymbolsByStatus(symbols) {
+    const requests = [];
     const toBeFetched = [];
     symbols.forEach(symbol => {
-      if (this.fetching.hasOwnProperty(symbol)) {
-        fetching.push(this.fetching[symbol]);
+      if (this.requests.hasOwnProperty(symbol)) {
+        requests.push(this.requests[symbol]);
       } else {
         toBeFetched.push(symbol);
       }
     });
-    return { fetching, toBeFetched };
+    return { requests, toBeFetched };
   }
 
   combineData(data, newData) {

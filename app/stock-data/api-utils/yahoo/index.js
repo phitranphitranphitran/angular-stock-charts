@@ -1,3 +1,3 @@
-import { fetchData, extractData } from "./data-utils";
+import { sendRequest, extractData } from "./data-utils";
 
-export { fetchData, extractData };
+export { sendRequest, extractData };

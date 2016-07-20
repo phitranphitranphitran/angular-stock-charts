@@ -11,7 +11,6 @@ class StockDataService {
     this.apiSelector = apiSelector;
 
     this.onUpdateApi(apiSelector.getApi());
-    this.get(symbolsStore.getSymbols());
 
     apiSelector.listen(false, (event, api) => {
       this.onUpdateApi(api);
@@ -35,16 +34,24 @@ class StockDataService {
   // main getter method
   // returns a Promise that resolves to the stocks data
   // determines when the Promise should resolve based on any ongoing requests
-  // if "symbols" arg is present, that means new stock data is to be added
   get(symbols) {
-    // simply return data stored if no requests are happening
-    if (this.data && !this.requests && !symbols) {
-      return this.$q(resolve => resolve(this.data));
+    // if "symbols" arg is present, that means new stock data is to be added
+    const adding = symbols ? true : false;
+
+    if (!this.requests && !adding) {
+      // simplest case, return data stored if no requests are happening
+      if (this.data) {
+        return this.$q(resolve => resolve(this.data));
+      }
+      // get all symbols
+      else {
+        return this.get(this.symbolsStore.getSymbols());
+      }
     }
-    
+
     if (this.requests) {
       // a get() call while requests are happening
-      if (!symbols) {
+      if (!adding) {
         // return the updated data after all pending requests finish
         const allRequests = Object.keys(this.requests).map(symbol => this.requests[symbol]);
         return this.$q.all(allRequests).then(() => this.data);

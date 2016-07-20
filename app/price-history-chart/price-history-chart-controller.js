@@ -56,8 +56,13 @@ function PriceHistoryChartController($scope, stockData, apiSelector, activeStock
 
   // reload data and chart on API or active stock change
   apiSelector.listen($scope, getHistories);
-  // new stock becomes active stock by default
-  $scope.$watch(() => activeStock.getActiveStock(), getHistories);
+  $scope.$watch(() => activeStock.getActiveStock(), (activeStock) => {
+    if (this.histories && this.histories.hasOwnProperty(activeStock)) {
+      return updateChart(activeStock);
+    }
+    // new stock becomes active stock by default
+    return getHistories();
+  });
 }
 
 PriceHistoryChartController.$inject = ["$scope", "stockData", "apiSelector", "activeStock"];

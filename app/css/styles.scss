@@ -61,17 +61,21 @@ main {
   form {
     display: flex;
     flex-direction: row;
-    .form-control {
-      display: inline;
-      margin-right: 0.5em;
-    }
+  }
+  .form-control {
+    display: inline;
+    margin-right: 0.5em;
+  }
+  .btn {
+    min-width: 7em;
+    max-height: 2.5em;
   }
 }
 
-.loading-spinner {
-  height: 1em;
-  width: 4.5em;
-  transform: scale(2);
+// custom toast needs !important to override
+.toast-adding {
+  background-image: url("/ellipsis-white.svg") !important;
+  background-color: $highlightColor !important;
 }
 
 // Companies Table

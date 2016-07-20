@@ -85,7 +85,7 @@ class StockDataService {
         .then(data => {
           this.clearRequests(symbols);
           if (!data) {
-            return reject(new Error("No stock data, please double check the symbol"));
+            return reject(new Error(`No stock data for ${symbols}`));
           }
           // assign data on initial get, otherwise combine new data
           this.data = !this.data ? data : this.combineData(this.data, data);
@@ -144,7 +144,7 @@ class StockDataService {
   }
 
   hasSymbol(symbol) {
-    return this.data.histories.hasOwnProperty(symbol);
+    return this.data && this.data.histories.hasOwnProperty(symbol);
   }
 
   // checks if requests for certain symbols are already being made.

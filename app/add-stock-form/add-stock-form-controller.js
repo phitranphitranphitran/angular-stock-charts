@@ -2,7 +2,7 @@ function AddStockFormController(stockData, addStockEvent, toastr) {
   this.fetching = false;
 
   this.onSubmit = (symbol) => {
-    symbol = symbol.toUpperCase();
+    symbol = symbol.trim().toUpperCase();
     if (symbol === this.symbol) {
       return;
     }

@@ -21,12 +21,6 @@ function AddStockFormController(stockData, addStockEvent, toastr) {
             break;
           case "fetching":
             return err.promise; // keep spinner spinning until resolved
-          default:
-            if (err.message) {
-              toastr.error(err.message);
-            } else {
-              toastr.error(`Error - Request for ${symbol} failed`);
-            }
         }
       })
       .finally(() => {

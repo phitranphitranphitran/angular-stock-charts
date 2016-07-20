@@ -4,11 +4,12 @@ import { startDate, endDate } from "./config";
 
 class StockDataService {
 
-  constructor($http, $q, symbolsStore, apiSelector) {
+  constructor($http, $q, symbolsStore, apiSelector, toastr) {
     this.$http = $http;
     this.$q = $q;
     this.symbolsStore = symbolsStore;
     this.apiSelector = apiSelector;
+    this.toastr = toastr;
 
     this.onUpdateApi(apiSelector.getApi());
 
@@ -83,15 +84,19 @@ class StockDataService {
         // extractData varies by API
         .then(res => this.extractData(res))
         .then(data => {
-          this.clearRequests(symbols);
           if (!data) {
-            return reject(new Error(`No stock data for ${symbols}`));
+            this.toastr.error(`No stock data for ${symbols}`);
+            return reject({ message: `No stock data for ${symbols}`, type: "nodata" });
           }
           // assign data on initial get, otherwise combine new data
           this.data = !this.data ? data : this.combineData(this.data, data);
           return resolve(this.data);
         })
-        .catch(reject);
+        .catch(err => {
+          this.toastr.error("Error - Request failed");
+          return reject(err);
+        })
+        .finally(() => this.clearRequests(symbols));
     });
 
     this.trackRequest(symbols, request);
@@ -172,6 +177,6 @@ class StockDataService {
 
 }
 
-StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector"];
+StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector", "toastr"];
 
 export default StockDataService;

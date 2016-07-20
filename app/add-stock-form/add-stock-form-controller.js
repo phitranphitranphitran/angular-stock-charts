@@ -21,6 +21,8 @@ function AddStockFormController(stockData, addStockEvent, toastr) {
             break;
           case "fetching":
             return err.promise; // keep spinner spinning until resolved
+          default:
+            this.symbol = "";
         }
       })
       .finally(() => {

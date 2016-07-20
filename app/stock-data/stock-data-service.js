@@ -7,6 +7,7 @@ class StockDataService {
   constructor($http, $q, symbolsStore, apiSelector) {
     this.$http = $http;
     this.$q = $q;
+    this.symbolsStore = symbolsStore;
     this.apiSelector = apiSelector;
 
     this.onUpdateApi(apiSelector.getApi());
@@ -14,7 +15,7 @@ class StockDataService {
 
     apiSelector.listen(false, (event, api) => {
       this.onUpdateApi(api);
-      this.get();
+      this.get(symbolsStore.getSymbols());
     });
   }
 
@@ -40,7 +41,7 @@ class StockDataService {
     if (this.data && !this.requests && !symbols) {
       return this.$q(resolve => resolve(this.data));
     }
-
+    
     if (this.requests) {
       // a get() call while requests are happening
       if (!symbols) {
@@ -69,20 +70,13 @@ class StockDataService {
   // sends the API request and extracts the data
   // also handles bookkeeping of ongoing requests
   fetchData(symbols) {
-    const fetch = this.$q((resolve, reject) => {
+    const request = this.$q((resolve, reject) => {
       // sendRequest varies by API
       return this.sendRequest(symbols, startDate, endDate)
         // extractData varies by API
         .then(res => this.extractData(res))
         .then(data => {
-          // clear all references to this request
-          symbols.forEach(symbol => {
-            delete this.requests[symbol];
-          });
-          // if no more fetches, set to false ({} isn't falsey)
-          if (!Object.keys(this.requests).length) {
-            this.requests = false;
-          }
+          this.clearRequests(symbols);
           if (!data) {
             return reject(new Error("No stock data, please double check the symbol"));
           }
@@ -93,14 +87,28 @@ class StockDataService {
         .catch(reject);
     });
 
+    this.trackRequest(symbols, request);
+
+    return request;
+  }
+
+  clearRequests(symbols) {
+    symbols.forEach(symbol => {
+      delete this.requests[symbol];
+    });
+    // if no more fetches, set to false ({} isn't falsey)
+    if (!Object.keys(this.requests).length) {
+      this.requests = false;
+    }
+  }
+
+  trackRequest(symbols, request) {
     if (!this.requests) {
       this.requests = {};
     }
     symbols.forEach(symbol => {
-      this.requests[symbol] = fetch;
+      this.requests[symbol] = request;
     });
-
-    return fetch;
   }
 
   // adds a single new stock data entry to the store
@@ -119,7 +127,12 @@ class StockDataService {
           type: "fetching"
         });
       }
-      return this.get([symbol]).then(resolve).catch(reject);
+      return this.get([symbol])
+        .then(() => {
+          this.symbolsStore.addSymbol(symbol);
+          return resolve(this.data);
+        })
+        .catch(reject);
     });
   }
 

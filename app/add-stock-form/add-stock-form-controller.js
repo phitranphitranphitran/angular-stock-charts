@@ -1,4 +1,4 @@
-function AddStockFormController(stockData, addStockEvent, symbolsStore, toastr) {
+function AddStockFormController(stockData, addStockEvent, toastr) {
   this.fetching = false;
 
   this.onSubmit = (symbol) => {
@@ -13,7 +13,6 @@ function AddStockFormController(stockData, addStockEvent, symbolsStore, toastr) 
       .then(() => {
         toastr.success(`${symbol} added`);
         addStockEvent.broadcast(symbol);
-        symbolsStore.addSymbol(symbol);
       })
       .catch(err => {
         switch (err.type) {
@@ -32,6 +31,6 @@ function AddStockFormController(stockData, addStockEvent, symbolsStore, toastr) 
   };
 }
 
-AddStockFormController.$inject = ["stockData", "addStockEvent", "symbolsStore", "toastr"];
+AddStockFormController.$inject = ["stockData", "addStockEvent", "toastr"];
 
 export default AddStockFormController;

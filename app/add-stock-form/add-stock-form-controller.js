@@ -1,20 +1,24 @@
 function AddStockFormController(stockData, addStockEvent, toastr) {
   this.fetching = false;
+
   this.onSubmit = (symbol) => {
     symbol = symbol.toUpperCase();
     this.fetching = true;
+
     return stockData.add(symbol)
       .then(() => {
         toastr.success(`${symbol} added`);
         addStockEvent.broadcast(symbol);
       })
       .catch(err => {
-        if (err.type === "info") {
-          toastr.info(err.message);
-        } else if (err.message) {
-          toastr.error(err.message);
-        } else {
-          toastr.error("Error - Request failed");
+        switch (err.type) {
+          case "duplicate":
+            toastr.info(err.message);
+            break;
+          case "fetching":
+            return err.promise; // keep spinner spinning until resolved
+          default:
+            toastr.error("Error - Request failed");
         }
       })
       .finally(() => {

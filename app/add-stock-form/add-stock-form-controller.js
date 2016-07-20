@@ -2,23 +2,16 @@ function AddStockFormController(stockData, addStockEvent, toastr) {
   this.fetching = false;
   this.onSubmit = (symbol) => {
     symbol = symbol.toUpperCase();
-    return stockData.hasSymbol(symbol)
-      .then(hasSymbol => {
-        if (hasSymbol) {
-          toastr.info(`${symbol} is already present`);
-        } else {
-          this.fetching = true;
-          return stockData.add(symbol);
-        }
-      })
-      .then(data => {
-        if (data) {
-          toastr.success(`${symbol} added`);
-          addStockEvent.broadcast(symbol);
-        }
+    this.fetching = true;
+    return stockData.add(symbol)
+      .then(() => {
+        toastr.success(`${symbol} added`);
+        addStockEvent.broadcast(symbol);
       })
       .catch(err => {
-        if (err.message) {
+        if (err.type === "info") {
+          toastr.info(err.message);
+        } else if (err.message) {
           toastr.error(err.message);
         } else {
           toastr.error("Error - Request failed");

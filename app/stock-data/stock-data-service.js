@@ -12,9 +12,10 @@ class StockDataService {
     this.data = false;
     this.fetching = false;
 
-    // apiSelector.listen(false, (event, api) => {
-    //   this.onUpdateApi(api);
-    // });
+    apiSelector.listen(false, (event, api) => {
+      this.onUpdateApi(api);
+      this.get();
+    });
   }
 
   // primary getter method
@@ -61,6 +62,7 @@ class StockDataService {
   // on API change, simply replace fetchData and extractData with API-specific methods from apiUtils
   onUpdateApi(api) {
     this.data = false;
+    this.fetching = false;
     switch(api) {
       // case APIS.YAHOO:
       default: {
@@ -78,7 +80,17 @@ class StockDataService {
   }
 
   add(symbol) {
-    return this.get([symbol]);
+    return this.$q((resolve, reject) => {
+      return this.hasSymbol(symbol)
+        .then(hasSymbol => {
+          if (hasSymbol) {
+            return reject({ message: `${symbol} already present`, type: "info", symbol });
+          }
+          return this.get([symbol]);
+        })
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
   hasSymbol(symbol) {

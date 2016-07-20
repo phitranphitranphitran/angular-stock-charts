@@ -1,9 +1,15 @@
 function RequestsListController($scope, $timeout, stockData, toastr) {
   this.toasts = {};
   let initialLoad = true;
+  let toastSettings =  {
+    iconClass: "toast-adding",
+    timeOut: 0,
+    extendedTimeOut: 0
+  };
 
   $scope.$watch(() => stockData.requests, (latestRequests) => {
     if (initialLoad) {
+      this.toasts.INITIAL_LOAD = toastr.info("Getting stocks data", toastSettings);
       initialLoad = false;
       return;
     }
@@ -11,11 +17,7 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
       // open toasts for new requests
       Object.keys(latestRequests).forEach(symbol => {
         if (!this.toasts.hasOwnProperty(symbol)) {
-          this.toasts[symbol] = toastr.info(`Adding ${symbol}...`, {
-            iconClass: "toast-adding",
-            timeOut: 0,
-            extendedTimeOut: 0
-          });
+          this.toasts[symbol] = toastr.info(`Adding ${symbol}`, toastSettings);
         }
       });
       // close toasts for finished requests

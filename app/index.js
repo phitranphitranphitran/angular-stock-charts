@@ -2,7 +2,7 @@ import angular from "angular";
 import "normalize.css";
 import "bootstrap/dist/css/bootstrap.css";
 
-import "./css/styles.scss";
+import "./app.scss";
 
 import "./navbar"; // app.navbar module
 import "./price-history-chart"; // app.priceHistoryChart module

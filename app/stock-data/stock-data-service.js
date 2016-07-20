@@ -93,7 +93,11 @@ class StockDataService {
           return resolve(this.data);
         })
         .catch(err => {
-          this.toastr.error("Error - Request failed");
+          this.toastr.error("Error - Request failed", {
+            // sticky toaster if initial fetch fails
+            timeOut: this.data ? 5000 : 0,
+            extendedTimeOut: this.data ? 1000 : 0
+          });
           return reject(err);
         })
         .finally(() => this.clearRequests(symbols));

@@ -6,6 +6,10 @@ var webpack = require("webpack");
 
 module.exports = {
   entry: path.join(__dirname, "/app/index.js"),
+  output: {
+    filename: "app.bundle.js",
+    path: path.join(__dirname, "/public")
+  },
   module: {
     loaders: [
       {
@@ -27,10 +31,7 @@ module.exports = {
       }
     ]
   },
-  output: {
-    filename: "bundle.js",
-    path: path.join(__dirname, "/public")
-  },
+  devtool: !production ? "source-map" : "",
   plugins: production ? [
     new webpack.DefinePlugin({
       "process.env": {

@@ -46,8 +46,9 @@ bower_components
 # compiled CSS files
 public/*.css
 
-# webpack bundled script
-public/bundle.js
+# webpack bundled scripts
+public/*.bundle.js
+public/*.bundle.js.map
 
 # mock API data
 public/*.mock.json

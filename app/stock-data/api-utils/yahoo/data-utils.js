@@ -40,14 +40,15 @@ function extractQuotes(data) {
     symbol: company["Symbol"],
     name: company["Name"],
     currentPrice: Number(company["LastTradePriceOnly"]),
-    marketCapFormatted: company["MarketCapitalization"] || "N/A",
-    marketCap: company["MarketCapitalization"] ?
-      marketCapToNum(company["MarketCapitalization"]) : 0
+    marketCapFormatted: company["MarketCapitalization"],
+    marketCap: marketCapToNum(company["MarketCapitalization"])
   }));
 
   // converts a formatted market cap string from the API response into a Number
   function marketCapToNum(mcString) {
-
+    if (!mcString) {
+      return;
+    }
     const suffix = mcString.charAt(mcString.length-1);
     let mcNum;
     switch(suffix) {

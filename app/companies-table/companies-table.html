@@ -1,4 +1,3 @@
-<input ng-model="searchString" type="text" placeholder="Filter companies" class="form-control"/>
 <table>
   <thead>
     <tr>
@@ -30,14 +29,14 @@
   </thead>
   <tbody>
     <tr ng-repeat="company in $ctrl.companies
-        | orderBy : $ctrl.orderByField : $ctrl.orderReverse
-        | filter : $ctrl.filterByNameOrSymbol(searchString)"
+        | orderBy : ['!' + $ctrl.orderByField, $ctrl.orderByField] : $ctrl.orderReverse
+        | filter : $ctrl.filterByNameOrSymbol($ctrl.filter)"
         ng-click="$ctrl.setActiveStock(company.symbol)"
         ng-class="{'active-row': company.symbol === $ctrl.getActiveStock()}">
       <td><span ng-bind="company.symbol"></span></td>
-      <td><span ng-bind="company.name"></span></td>
-      <td><span ng-bind="company.currentPrice | currency:'' "></span></td>
-      <td><span ng-bind="company.marketCapFormatted"></span></td>
+      <td><span ng-bind="company.name || 'N/A'" ng-attr-title="{{company.name}}"></span></td>
+      <td><span ng-bind="company.currentPrice ? (company.currentPrice | currency:'') : 'N/A'"></span></td>
+      <td><span ng-bind="company.marketCapFormatted || 'N/A'"></span></td>
     </tr>
   </tbody>
 </table>

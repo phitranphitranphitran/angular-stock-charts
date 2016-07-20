@@ -1,4 +1,4 @@
-import { startDate, endDate } from "../stock-data/config";
+// import { startDate, endDate } from "../stock-data/config";
 
 function PriceHistoryChartController($scope, stockData, apiSelector, activeStock) {
   // highcharts-ng config object
@@ -12,6 +12,7 @@ function PriceHistoryChartController($scope, stockData, apiSelector, activeStock
       }
     },
     title: {
+      text: "Stock Price History",
       style: {
         "fontFamily": ["Montserrat", "sans-serif"]
       }
@@ -26,17 +27,18 @@ function PriceHistoryChartController($scope, stockData, apiSelector, activeStock
     }
   };
 
-  const updateChart = (activeStock) => {
+  const updateChart = (symbol) => {
+    const activeStock = this.histories[symbol];
     this.chartConfig = Object.assign(this.chartConfig, {
       title: {
-        text: `${activeStock} Stock Price From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`
+        text: `${symbol} Stock Price History`
       },
       series: [{
-        name: this.histories ? this.histories[activeStock].name : "",
-        data: this.histories ? this.histories[activeStock].history : [],
+        name: activeStock.name || symbol,
+        data: this.histories ? activeStock.history : [],
         marker: { symbol: "circle" },
         tooltip: {
-          pointFormat: `<span style="color:{point.color}">\u25CF</span> ${activeStock}: <b>{point.y}</b><br/>`
+          pointFormat: `<span style="color:{point.color}">\u25CF</span> ${symbol}: <b>{point.y}</b><br/>`
         }
       }]
     });

@@ -1,7 +1,7 @@
 $darkThemeColor: #333333;
 $highlightColor: #F37121;
 
-// Layout
+// Main Layout
 // ----------------------------------------
 
 .app {
@@ -30,6 +30,9 @@ $highlightColor: #F37121;
 .navbar {
   margin-bottom: 0;
 }
+.navbar-right {
+  display: none;
+}
 
 main {
   padding: 2em 0;
@@ -42,13 +45,39 @@ main {
   line-height: 3.5em;
 }
 
+// Collapsing inputs
+// --------------------------------------
+
+.collapse-inputs {
+  display: flex;
+  flex-direction: column;
+  & > * {
+    margin: 0.5em 0;
+  }
+}
+
+.add-stock-form {
+  display: inline;
+  form {
+    display: flex;
+    flex-direction: row;
+    .form-control {
+      display: inline;
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.loading-spinner {
+  height: 1em;
+  width: 4.5em;
+  transform: scale(2);
+}
+
 // Companies Table
 // ----------------------------------------
 
 .companies-table {
-  .form-control {
-    margin: 2em 0;
-  }
   table {
     width: 100%;
 
@@ -86,24 +115,56 @@ main {
   color: $highlightColor;
 }
 
+hr {
+  margin: 0.5em 0;
+}
+
 // Media Queries
 // -------------------------------------------
 
 @media screen and (min-width: 768px) {
-  .companies-table {
+  .navbar-right {
+    display: inline;
+  }
+  .collapse-inputs {
+    flex-direction: row;
+    justify-content: space-between;
     .form-control {
-      width: auto;
+      display: inline;
     }
+  }
+  #filter-input {
+    width: 50%;
+  }
+  .companies-table {
     table {
       td, th {
         font-size: 1em;
       }
     }
   }
+  hr {
+    margin: 1em 0;
+  }
 }
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
-  .order-caret {
-    display: block;
+  .history-chart {
+    height: 20em;
+  }
+  .companies-table {
+    table {
+      th {
+        font-size: 0.65em;
+      }
+      td {
+        min-width: 60px;
+        max-width: 135px;
+        font-size: 0.7em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   }
 }

@@ -36,12 +36,12 @@ function extractQuotes(data) {
   if (!quotes.length) {
     quotes = [quotes]; // if just one quote, put in array
   }
-  return quotes.map(company => ({
-    symbol: company["Symbol"],
-    name: company["Name"],
-    currentPrice: Number(company["LastTradePriceOnly"]),
-    marketCapFormatted: company["MarketCapitalization"],
-    marketCap: marketCapToNum(company["MarketCapitalization"])
+  return quotes.map(quote => ({
+    symbol: quote["Symbol"],
+    name: quote["Name"],
+    currentPrice: Number(quote["LastTradePriceOnly"]),
+    marketCapFormatted: quote["MarketCapitalization"],
+    marketCap: marketCapToNum(quote["MarketCapitalization"])
   }));
 
   // converts a formatted market cap string from the API response into a Number
@@ -68,10 +68,10 @@ function extractQuotes(data) {
   }
 }
 
-// transforms raw API data points to a hash of price histories for each company
+// transforms raw API data points to a hash of price histories for each quote
 function extractHistories(data) {
   const histories = createHistoriesHash(data);
-  // sort each company's data series
+  // sort each quote's data series
   for (let symbol in histories) {
     if (histories.hasOwnProperty(symbol)) {
       histories[symbol].history = sortDataPoints(histories[symbol].history);
@@ -79,7 +79,7 @@ function extractHistories(data) {
   }
   return histories;
 
-  // uses API data to create hash with the form { companySymbol: [dataSeries] }
+  // uses API data to create hash with the form { quoteSymbol: [dataSeries] }
   function createHistoriesHash(data) {
     const histories = {};
     // iterate through each raw data point

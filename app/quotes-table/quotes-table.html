@@ -8,7 +8,7 @@
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='name'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        <span>Company Name</span>
+        <span>quote Name</span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'name'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
@@ -28,15 +28,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="company in $ctrl.companies
+    <tr ng-repeat="quote in $ctrl.quotes
         | orderBy : ['!' + $ctrl.orderByField, $ctrl.orderByField] : $ctrl.orderReverse
         | filter : $ctrl.filterByNameOrSymbol($ctrl.filter)"
-        ng-click="$ctrl.setActiveStock(company.symbol)"
-        ng-class="{'active-row': company.symbol === $ctrl.getActiveStock()}">
-      <td><span ng-bind="company.symbol"></span></td>
-      <td><span ng-bind="company.name || 'N/A'" ng-attr-title="{{company.name}}"></span></td>
-      <td><span ng-bind="company.currentPrice ? (company.currentPrice | currency:'') : 'N/A'"></span></td>
-      <td><span ng-bind="company.marketCapFormatted || 'N/A'"></span></td>
+        ng-click="$ctrl.setActiveStock(quote.symbol)"
+        ng-class="{'active-row': quote.symbol === $ctrl.getActiveStock()}">
+      <td><span ng-bind="quote.symbol"></span></td>
+      <td><span ng-bind="quote.name || 'N/A'" ng-attr-title="{{quote.name}}"></span></td>
+      <td><span ng-bind="quote.currentPrice ? (quote.currentPrice | currency:'') : 'N/A'"></span></td>
+      <td><span ng-bind="quote.marketCapFormatted || 'N/A'"></span></td>
     </tr>
   </tbody>
 </table>

@@ -1,8 +1,8 @@
-function CompaniesTableController($scope, stockData, activeStock, apiSelector, addStockEvent) {
+function QuotesTableController($scope, stockData, activeStock, apiSelector, addStockEvent) {
   const getQuotes = () => {
     stockData.get().then(data => {
       // expects an array of company stock quotes
-      this.companies = data.quotes;
+      this.quotes = data.quotes;
     });
   };
 
@@ -19,15 +19,15 @@ function CompaniesTableController($scope, stockData, activeStock, apiSelector, a
   this.getActiveStock = activeStock.getActiveStock;
   this.setActiveStock = activeStock.setActiveStock;
 
-  // will show company in table if searchString is substring of name or symbol
+  // will show quote in table if searchString is substring in company name or symbol
   this.filterByNameOrSymbol = (searchString) => {
-    return function(company) {
+    return function(quote) {
       if (!searchString) {
         return true;
       }
       // case insensitive
-      const name = company.name ? company.name.toLowerCase() : "";
-      const symbol = company.symbol.toLowerCase();
+      const name = quote.name ? quote.name.toLowerCase() : "";
+      const symbol = quote.symbol.toLowerCase();
       searchString = searchString.toLowerCase();
 
       return name.includes(searchString) || symbol.includes(searchString);
@@ -35,6 +35,6 @@ function CompaniesTableController($scope, stockData, activeStock, apiSelector, a
   };
 }
 
-CompaniesTableController.$inject = ["$scope", "stockData", "activeStock", "apiSelector", "addStockEvent"];
+QuotesTableController.$inject = ["$scope", "stockData", "activeStock", "apiSelector", "addStockEvent"];
 
-export default CompaniesTableController;
+export default QuotesTableController;

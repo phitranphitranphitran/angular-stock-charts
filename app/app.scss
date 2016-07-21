@@ -82,10 +82,10 @@ main {
   height: 20em;
 }
 
-// Companies table
+// Quotes table
 // ----------------------------------------
 
-.companies-table table {
+.quotes-table table {
   width: 100%;
 
   td, th {
@@ -145,7 +145,7 @@ hr {
 // -------------------------------------------
 
 @media (min-width: 768px), (orientation: landscape) {
-  .companies-table table {
+  .quotes-table table {
     td, th {
       font-size: 1em;
       min-width: 100px;

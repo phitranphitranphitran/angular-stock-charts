@@ -5,16 +5,16 @@ import "../api-selector"; // app.apiSelector module
 import "../active-stock"; // app.activeStock module
 import "../add-stock-form"; // app.addStockForm module
 
-import template from "./companies-table.html";
-import controller from "./companies-table.controller";
+import template from "./quotes-table.html";
+import controller from "./quotes-table.controller";
 
-angular.module("app.companiesTable", [
+angular.module("app.quotesTable", [
     "app.stockData",
     "app.apiSelector",
     "app.activeStock",
     "app.addStockForm"
   ])
-  .component("companiesTable", {
+  .component("quotesTable", {
     template,
     controller,
     bindings: {

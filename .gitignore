@@ -40,22 +40,5 @@ bower_components
 # CSS maps
 *.css.map
 
-# minified files
-*.min.*
-
-# compiled CSS files
-public/*.css
-
-# webpack bundled scripts
-public/*.bundle.js
-public/*.bundle.js.map
-
-# webpack compressed fonts, images
-public/*.svg
-public/*.woff2
-public/*.woff
-public/*.ttf
-public/*.eot
-
 # mock API data
 public/*.mock.json

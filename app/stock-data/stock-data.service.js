@@ -18,6 +18,12 @@ class StockDataService {
       this.onUpdateApi(api);
       this.get(symbolsStore.getSymbols());
     });
+
+    // this.requests - { "SYMBOL": Promise, ... }
+    // keeps track of all ongoing requests and for which symbols
+
+    // this.data - { quotes, histories }
+    // store of data fetched and extracted from request responses
   }
 
   // on API change, simply replace sendRequest and extractData with API-specific methods from apiUtils
@@ -45,7 +51,7 @@ class StockDataService {
       if (this.data) {
         return this.$q(resolve => resolve(this.data));
       }
-      // get all symbols
+      // no data, requests, and not adding - get all symbols
       else {
         return this.get(this.symbolsStore.getSymbols());
       }
@@ -95,7 +101,7 @@ class StockDataService {
         })
         .catch(err => {
           this.toastr.error("Error - Request failed", {
-            // sticky toaster if initial fetch fails
+            // sticky toast if initial fetch fails
             timeOut: this.data ? 5000 : 0,
             extendedTimeOut: this.data ? 1000 : 0
           });
@@ -140,7 +146,7 @@ class StockDataService {
       if (this.requests.hasOwnProperty(symbol)) {
         return reject({
           message: `${symbol} is already being added`,
-          promise: this.requests[symbol].then(resolve).catch(reject), // try remove then resolve catch reject
+          promise: this.requests[symbol],
           type: "fetching"
         });
       }

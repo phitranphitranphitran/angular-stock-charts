@@ -1,4 +1,4 @@
-import "./loader-vendor.scss";
+import "./loader-vendor.scss"; // loading animation
 import "./loader-override.scss";
 
 function RequestsListController($scope, $timeout, stockData, toastr) {
@@ -23,6 +23,8 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
     if (typeof toast.then === "function" && typeof toast.catch === "function") {
       $timeout.cancel(toast);
     } else {
+      // cannot use toastr.clear because of https://github.com/Foxandxss/angular-toastr/issues/136
+      // so must manually remove instead
       toast.el.remove();
     }
     delete this.toasts[symbol];
@@ -47,8 +49,6 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
       // close toasts for finished requests
       Object.keys(this.toasts).forEach(symbol => {
         if (!latestRequests.hasOwnProperty(symbol)) {
-          // cannot use toastr.clear because of https://github.com/Foxandxss/angular-toastr/issues/136
-          // so must manually remove instead
           removeToast(symbol);
         }
       });

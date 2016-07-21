@@ -1,6 +1,6 @@
-// import { startDate, endDate } from "../stock-data/config";
-
 function HistoryChartController($scope, stockData, apiSelector, activeStock) {
+  this.histories = {};
+  
   // highcharts-ng config object
   this.chartConfig = {
     options: {
@@ -35,7 +35,7 @@ function HistoryChartController($scope, stockData, apiSelector, activeStock) {
       },
       series: [{
         name: activeStock.name || symbol,
-        data: this.histories ? activeStock.history : [],
+        data: activeStock.history || [],
         marker: { symbol: "circle" },
         tooltip: {
           pointFormat: `<span style="color:{point.color}">\u25CF</span> ${symbol}: <b>{point.y}</b><br/>`
@@ -54,13 +54,14 @@ function HistoryChartController($scope, stockData, apiSelector, activeStock) {
 
   getHistories();
 
-  // reload data and chart on API or active stock change
+  // reload data on API change
   apiSelector.listen($scope, getHistories);
+
+  // update on active stock change
   $scope.$watch(() => activeStock.getActiveStock(), (activeStock) => {
-    if (this.histories && this.histories.hasOwnProperty(activeStock)) {
+    if (this.histories.hasOwnProperty(activeStock)) {
       return updateChart(activeStock);
     }
-    // new stock becomes active stock by default
     return getHistories();
   });
 }

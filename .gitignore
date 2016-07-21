@@ -37,8 +37,8 @@ bower_components
 # Environment variables
 .env
 
-# CSS maps
-*.css.map
+# source maps
+public/*.map
 
 # mock API data
 public/*.mock.json

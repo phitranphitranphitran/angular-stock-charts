@@ -1,3 +1,5 @@
+// see README in api-utils folder to see how to add another API data source
+
 import * as apiUtils from "./api-utils";
 import { startDate, endDate } from "./config";
 

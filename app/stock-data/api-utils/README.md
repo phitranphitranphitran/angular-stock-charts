@@ -34,7 +34,7 @@ A Promise resulting from $http.get or a $q method that will contain the stock da
 
 #### extractData(res) => Object
 
-Transforms the response object into a form usable by the `quotes-table` and `price-history-chart` components.
+Transforms the response object into a form usable by the `quotes-table` and `history-chart` components.
 
 Arguments:
 

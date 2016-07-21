@@ -1,6 +1,6 @@
 // import { startDate, endDate } from "../stock-data/config";
 
-function PriceHistoryChartController($scope, stockData, apiSelector, activeStock) {
+function HistoryChartController($scope, stockData, apiSelector, activeStock) {
   // highcharts-ng config object
   this.chartConfig = {
     options: {
@@ -65,6 +65,6 @@ function PriceHistoryChartController($scope, stockData, apiSelector, activeStock
   });
 }
 
-PriceHistoryChartController.$inject = ["$scope", "stockData", "apiSelector", "activeStock"];
+HistoryChartController.$inject = ["$scope", "stockData", "apiSelector", "activeStock"];
 
-export default PriceHistoryChartController;
+export default HistoryChartController;

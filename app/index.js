@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./app.scss";
 
 import "./navbar"; // app.navbar module
-import "./price-history-chart"; // app.priceHistoryChart module
+import "./history-chart"; // app.historyChart module
 import "./add-stock-form"; // app.addStockForm module
 import "./quotes-table"; // app.quotesTable module
 import "./footer-bar"; // app.footerBar module
@@ -17,7 +17,7 @@ import controller from "./app.controller";
 
 angular.module("app", [
     "app.navbar",
-    "app.priceHistoryChart",
+    "app.historyChart",
     "app.addStockForm",
     "app.quotesTable",
     "app.footerBar",

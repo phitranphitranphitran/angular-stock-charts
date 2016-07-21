@@ -1,7 +1,5 @@
-import { symbols } from "../stock-data/config";
-
-function ActiveStockService(addStockEvent) {
-  let activeStock = symbols[0];
+function ActiveStockService(symbolsStore, addStockEvent) {
+  let activeStock = symbolsStore.getSymbols()[0];
 
   this.setActiveStock = (symbol) => {
     activeStock = symbol;
@@ -11,11 +9,12 @@ function ActiveStockService(addStockEvent) {
     return activeStock;
   };
 
+  // new stock becomes active stock by default
   addStockEvent.listen(false, (event, symbol) => {
     this.setActiveStock(symbol);
   });
 }
 
-ActiveStockService.$inject = ["addStockEvent"];
+ActiveStockService.$inject = ["symbolsStore", "addStockEvent"];
 
 export default ActiveStockService;

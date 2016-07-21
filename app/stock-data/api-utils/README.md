@@ -115,3 +115,11 @@ Example:
     }
 }
 ```
+
+After creating these modules, export them from a new folder for the API in `app/stock-data/api-utils`.
+
+Then, add a constant string for your API's name in `app/api-selector/api.constant.js`
+
+Finally, in `app/stock-data/stock-data.service.js`, add a new switch case for your API in the method `onUpdateApi(api)`. Set the service's `sendRequest` and `extractData` methods to the new API-specific ones you created.
+
+To make the API the default data source, go to `app/api-selector/api-selector.service.js`.

@@ -19,22 +19,6 @@ body {
   min-height: 100%;
 }
 
-.navbar, .footer-bar {
-  border-radius: 0;
-  background-color: $darkThemeColor;
-  text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
-
-  a, li > a {
-    color: white;
-    &:focus, &:hover {
-      color: #BBB;
-      background-color: inherit;
-      text-decoration: none;
-    }
-  }
-}
-
 .navbar {
   margin-bottom: 0;
 }
@@ -50,7 +34,41 @@ main {
   position: absolute;
   bottom: 0;
   width: 100%;
-  line-height: 3.5em;
+  line-height: 3.5;
+}
+
+// General
+// -------------------------------------------
+
+.theme-bar  {
+  border-radius: 0;
+  background-color: $darkThemeColor;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+}
+
+.theme-bar-link {
+  color: white;
+  &:focus, &:hover {
+    color: #BBB;
+    background-color: inherit !important; // override bootstrap
+    text-decoration: none;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+  display: initial !important; // override bootstrap
+}
+
+hr {
+  margin: 0.5em 0;
+}
+
+// custom toast needs !important to override
+.toast-adding {
+  background-image: none !important;
+  background-color: $highlightColor !important;
 }
 
 // Collapsing inputs
@@ -65,13 +83,10 @@ main {
 }
 
 .add-stock-form {
-  display: inline;
-  form {
-    display: flex;
-    flex-direction: row;
-  }
+  display: flex;
+  flex-direction: row;
+
   .form-control {
-    display: inline;
     margin-right: 0.5em;
   }
   .btn {
@@ -87,25 +102,25 @@ main {
 // Company quotes table
 // ----------------------------------------
 
-.quotes-table table {
+.quotes-table {
   width: 100%;
 
+  th {
+    font-size: 0.9rem;
+  }
+  td {
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   td, th {
     padding: 0.5em;
-    min-width: 70px;
+    min-width: 60px;
     max-width: 120px;
     span {
       cursor: pointer;
     }
-  }
-  th {
-    font-size: 0.65em;
-  }
-  td {
-    font-size: 0.7em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   tbody > tr, {
     border-top: 0.5px solid #ddd;
@@ -118,44 +133,35 @@ main {
       border-color: $highlightColor;
     }
   }
-}
-
-// General
-// -------------------------------------------
-
-.hidden {
-  visibility: hidden;
-  display: initial !important; // !important needed to override bootstrap's !important
-}
-
-.order-caret {
-  margin-left: 3px;
-  color: $highlightColor;
-}
-
-hr {
-  margin: 0.5em 0;
-}
-
-// custom toast needs !important to override
-.toast-adding {
-  background-image: none !important;
-  background-color: $highlightColor !important;
+  .currency-label {
+    display: none;
+  }
+  .order-caret {
+    display: block;
+    margin-top: 3px;
+    color: $highlightColor;
+  }
 }
 
 // Media Queries
 // -------------------------------------------
 
 @media (min-width: 768px), (orientation: landscape) {
-  .quotes-table table {
+  .quotes-table {
     td, th {
-      font-size: 1em;
+      font-size: 1.4rem;
       min-width: 100px;
       max-width: none;
     }
+    .currency-label {
+      display: inline;
+    }
+    .order-caret {
+      display: inline;
+    }
   }
   hr {
-    margin: 1em 0;
+    margin: 1.5em 0;
   }
 }
 

@@ -76,12 +76,6 @@ main {
   width: 100%;
 }
 
-// Stock price history chart
-
-.history-chart {
-  height: 20em;
-}
-
 // Company quotes table
 // ----------------------------------------
 
@@ -158,9 +152,6 @@ hr {
 }
 
 @media (min-width: 768px) {
-  .history-chart {
-    height: auto;
-  }
   .collapse-inputs {
     flex-direction: row;
     justify-content: space-between;

@@ -13,7 +13,6 @@ import "./requests-list"; // app.requestsList module
 import "./api-selector"; // app.apiSelector module
 
 import template from "./app.html";
-import controller from "./app.controller";
 
 angular.module("app", [
     "app.navbar",
@@ -25,6 +24,5 @@ angular.module("app", [
     "app.apiSelector"
   ])
   .component("app", {
-    template,
-    controller
+    template
   });

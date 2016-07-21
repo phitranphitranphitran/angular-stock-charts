@@ -5,7 +5,7 @@ import "angular-toastr/dist/angular-toastr.min.css";
 
 import "../stock-data"; // app.stockData module
 
-import RequestsListController from "./requests-list-controller";
+import RequestsListController from "./requests-list.controller";
 
 angular.module("app.requestsList", [
     "ngAnimate",

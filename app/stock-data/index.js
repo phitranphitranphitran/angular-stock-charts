@@ -3,8 +3,8 @@ import "angular-animate"; // ngAnimate module
 import "angular-toastr"; // toastr module
 import "angular-toastr/dist/angular-toastr.min.css";
 
-import StockDataService from "./stock-data-service";
-import SymbolsStoreService from "./symbols-store-service";
+import StockDataService from "./stock-data.service";
+import SymbolsStoreService from "./symbols-store.service";
 
 import "../api-selector"; // app.apiSelector module
 

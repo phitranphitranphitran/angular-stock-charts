@@ -17,7 +17,8 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: ["es2015"]
+          presets: ["es2015"],
+          plugins: ["transform-object-assign"]
         }
       },
       {
@@ -31,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: production ? ["style", "css", "sass"] : ["style", "css?sourceMap", "sass?sourceMap"] 
+        loaders: production ? ["style", "css", "sass"] : ["style", "css?sourceMap", "sass?sourceMap"]
       },
       // for bootstrap
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },

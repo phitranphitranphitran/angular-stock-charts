@@ -1,7 +1,7 @@
 {
-  "name": "",
+  "name": "angular-stock-charts",
   "version": "1.0.0",
-  "description": "",
+  "description": "View charts of companies' stock price histories",
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --inline --hot --content-base ./public",
@@ -48,10 +48,7 @@
     "webpack": "^1.13.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
     "eslint": "^2.10.2",
-    "eslint-plugin-mocha": "^2.2.0",
-    "mocha": "^2.4.5",
     "webpack": "^1.13.0"
   }
 }

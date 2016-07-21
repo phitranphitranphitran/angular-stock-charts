@@ -1,6 +1,8 @@
-To add a new stock data API to use, simply implement and export the required methods `sendRequest` and `extractData`.
+# Adding New API Data Sources
 
-#### sendRequest($http, $q) => function(symbols, startDate, endDate)
+To add a new stock data API to use, simply implement and export the required methods `sendRequest` and `extractData`. No need to create new Angular services or providers, these should be plain functions.
+
+#### `sendRequest($http, $q) => function(symbols, startDate, endDate)`
 
 Inside this method you can specify how the data will be fetched, i.e. the URL and querystrings.
 
@@ -22,7 +24,7 @@ An inner function that uses $http and/or $q to make the API request for the give
 
 Arguments:
 
-- `symbols`: an array of stock symbol strings, Ex. ["NFLX", "MSFT", "AAPL"]
+- `symbols`: an array of stock symbol strings to request data for, Ex. ["NFLX", "MSFT", "AAPL"]
 
 - `startDate, endDate`: Date objects for the time period to fetch data
 
@@ -32,7 +34,7 @@ A Promise resulting from $http.get or a $q method that will contain the stock da
 
 
 
-#### extractData(res) => Object
+#### `extractData(res) => Object`
 
 Transforms the response object into a form usable by the `quotes-table` and `history-chart` components.
 

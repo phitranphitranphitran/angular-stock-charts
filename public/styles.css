@@ -1,0 +1,111 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh; }
+
+.navbar, .footer-bar {
+  border-radius: 0;
+  background-color: #333333;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif; }
+  .navbar a, .navbar li > a, .footer-bar a, .footer-bar li > a {
+    color: white; }
+    .navbar a:focus, .navbar a:hover, .navbar li > a:focus, .navbar li > a:hover, .footer-bar a:focus, .footer-bar a:hover, .footer-bar li > a:focus, .footer-bar li > a:hover {
+      color: #BBB;
+      background-color: inherit;
+      text-decoration: none; }
+
+.navbar {
+  margin-bottom: 0; }
+
+.navbar-right {
+  display: none; }
+
+main {
+  padding: 2em 0; }
+
+.footer-bar {
+  margin-top: auto;
+  margin-bottom: 0;
+  width: 100%;
+  line-height: 3.5em; }
+
+.collapse-inputs {
+  display: flex;
+  flex-direction: column; }
+  .collapse-inputs > * {
+    margin: 0.5em 0; }
+
+.add-stock-form {
+  display: inline; }
+  .add-stock-form form {
+    display: flex;
+    flex-direction: row; }
+  .add-stock-form .form-control {
+    display: inline;
+    margin-right: 0.5em; }
+  .add-stock-form .btn {
+    min-width: 7em;
+    max-height: 2.5em; }
+
+.companies-table table {
+  width: 100%; }
+  .companies-table table td, .companies-table table th {
+    padding: 0.5em;
+    font-size: 0.8em; }
+    .companies-table table td span, .companies-table table th span {
+      cursor: pointer; }
+  .companies-table table tbody > tr {
+    border-top: 0.5px solid #ddd; }
+  .companies-table table .active-row {
+    border-color: #F37121;
+    background-color: #F37121;
+    color: white; }
+    .companies-table table .active-row + tr {
+      border-color: #F37121; }
+
+.hidden {
+  visibility: hidden;
+  display: initial !important; }
+
+.order-caret {
+  margin-left: 3px;
+  color: #F37121; }
+
+hr {
+  margin: 0.5em 0; }
+
+.toast-adding {
+  background-image: url("/ellipsis-white.svg") !important;
+  background-color: #F37121 !important; }
+
+@media screen and (min-width: 768px) {
+  .navbar-right {
+    display: inline; }
+  .collapse-inputs {
+    flex-direction: row;
+    justify-content: space-between; }
+    .collapse-inputs .form-control {
+      display: inline; }
+  #filter-input {
+    width: 50%; }
+  .companies-table table td, .companies-table table th {
+    font-size: 1em; }
+  hr {
+    margin: 1em 0; } }
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .history-chart {
+    height: 20em; }
+  .companies-table table th {
+    font-size: 0.65em; }
+  .companies-table table td {
+    min-width: 60px;
+    max-width: 135px;
+    font-size: 0.7em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; } }
+
+/*# sourceMappingURL=styles.css.map */

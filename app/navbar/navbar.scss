@@ -1,0 +1,12 @@
+.navbar {
+  margin-bottom: 0;
+  &-right {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-right {
+    display: inline;
+  }
+}

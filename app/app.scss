@@ -19,22 +19,8 @@ body {
   min-height: 100%;
 }
 
-.navbar {
-  margin-bottom: 0;
-}
-.navbar-right {
-  display: none;
-}
-
 main {
   padding: 2em 0;
-}
-
-.footer-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  line-height: 3.5;
 }
 
 // General
@@ -45,14 +31,14 @@ main {
   background-color: $darkThemeColor;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
-}
 
-.theme-bar-link {
-  color: white;
-  &:focus, &:hover {
-    color: #BBB;
-    background-color: inherit !important; // override bootstrap
-    text-decoration: none;
+  &-link {
+    color: white;
+    &:focus, &:hover {
+      color: #BBB;
+      background-color: inherit !important; // override bootstrap
+      text-decoration: none;
+    }
   }
 }
 
@@ -82,84 +68,14 @@ hr {
   }
 }
 
-.add-stock-form {
-  display: flex;
-  flex-direction: row;
-
-  .form-control {
-    margin-right: 0.5em;
-  }
-  .btn {
-    min-width: 7em;
-    max-height: 2.5em;
-  }
-}
-
 #filter-input {
   width: 100%;
-}
-
-// Company quotes table
-// ----------------------------------------
-
-.quotes-table {
-  width: 100%;
-
-  th {
-    font-size: 0.9rem;
-  }
-  td {
-    font-size: 1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  td, th {
-    padding: 0.5em;
-    min-width: 60px;
-    max-width: 120px;
-    span {
-      cursor: pointer;
-    }
-  }
-  tbody > tr, {
-    border-top: 0.5px solid #ddd;
-  }
-  .active-row {
-    border-color: $highlightColor;
-    background-color: $highlightColor;
-    color: white;
-    & + tr {
-      border-color: $highlightColor;
-    }
-  }
-  .currency-label {
-    display: none;
-  }
-  .order-caret {
-    display: block;
-    margin-top: 3px;
-    color: $highlightColor;
-  }
 }
 
 // Media Queries
 // -------------------------------------------
 
 @media (min-width: 768px), (orientation: landscape) {
-  .quotes-table {
-    td, th {
-      font-size: 1.4rem;
-      min-width: 100px;
-      max-width: none;
-    }
-    .currency-label {
-      display: inline;
-    }
-    .order-caret {
-      display: inline;
-    }
-  }
   hr {
     margin: 1.5em 0;
   }
@@ -175,11 +91,5 @@ hr {
   }
   #filter-input {
     width: 50%;
-  }
-}
-
-@media (min-width: 992px) {
-  .navbar-right {
-    display: inline;
   }
 }

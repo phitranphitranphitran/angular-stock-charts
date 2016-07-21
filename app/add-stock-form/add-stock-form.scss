@@ -1,0 +1,12 @@
+.add-stock-form {
+  display: flex;
+  flex-direction: row;
+
+  .form-control {
+    margin-right: 0.5em;
+  }
+  .btn {
+    min-width: 7em;
+    max-height: 2.5em;
+  }
+}

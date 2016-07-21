@@ -8,6 +8,8 @@ import "../add-stock-form"; // app.addStockForm module
 import template from "./quotes-table.html";
 import controller from "./quotes-table.controller";
 
+import "./quotes-table.scss";
+
 angular.module("app.quotesTable", [
     "app.stockData",
     "app.apiSelector",

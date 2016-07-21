@@ -1,0 +1,58 @@
+$highlightColor: #F37121;
+
+.quotes-table {
+  width: 100%;
+
+  th {
+    font-size: 0.9rem;
+  }
+  td {
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  td, th {
+    padding: 0.5em;
+    min-width: 60px;
+    max-width: 120px;
+    span {
+      cursor: pointer;
+    }
+  }
+  tbody > tr, {
+    border-top: 0.5px solid #ddd;
+  }
+  .active-row {
+    border-color: $highlightColor;
+    background-color: $highlightColor;
+    color: white;
+    & + tr {
+      border-color: $highlightColor;
+    }
+  }
+  .currency-label {
+    display: none;
+  }
+  .order-caret {
+    display: block;
+    margin-top: 3px;
+    color: $highlightColor;
+  }
+}
+
+@media (min-width: 768px), (orientation: landscape) {
+  .quotes-table {
+    td, th {
+      font-size: 1.4rem;
+      min-width: 100px;
+      max-width: none;
+    }
+    .currency-label {
+      display: inline;
+    }
+    .order-caret {
+      display: inline;
+    }
+  }
+}

@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: production ? ["style", "css", "sass"] : ["style", "css?sourceMap", "sass?sourceMap"] 
       },
       // for bootstrap
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },

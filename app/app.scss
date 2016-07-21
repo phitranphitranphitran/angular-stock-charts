@@ -72,30 +72,48 @@ main {
   }
 }
 
-// Companies Table
+#filter-input {
+  width: 100%;
+}
+
+// Price histoies chart
+
+.history-chart {
+  height: 20em;
+}
+
+// Companies table
 // ----------------------------------------
 
-.companies-table {
-  table {
-    width: 100%;
+.companies-table table {
+  width: 100%;
 
-    td, th {
-      padding: 0.5em;
-      font-size: 0.8em;
-      span {
-        cursor: pointer;
-      }
+  td, th {
+    padding: 0.5em;
+    min-width: 70px;
+    max-width: 120px;
+    span {
+      cursor: pointer;
     }
-    tbody > tr, {
-      border-top: 0.5px solid #ddd;
-    }
-    .active-row {
+  }
+  th {
+    font-size: 0.65em;
+  }
+  td {
+    font-size: 0.7em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  tbody > tr, {
+    border-top: 0.5px solid #ddd;
+  }
+  .active-row {
+    border-color: $highlightColor;
+    background-color: $highlightColor;
+    color: white;
+    & + tr {
       border-color: $highlightColor;
-      background-color: $highlightColor;
-      color: white;
-      & + tr {
-        border-color: $highlightColor;
-      }
     }
   }
 }
@@ -126,9 +144,22 @@ hr {
 // Media Queries
 // -------------------------------------------
 
-@media screen and (min-width: 768px) {
-  .navbar-right {
-    display: inline;
+@media (min-width: 768px), (orientation: landscape) {
+  .companies-table table {
+    td, th {
+      font-size: 1em;
+      min-width: 100px;
+      max-width: none;
+    }
+  }
+  hr {
+    margin: 1em 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .history-chart {
+    height: auto;
   }
   .collapse-inputs {
     flex-direction: row;
@@ -140,35 +171,10 @@ hr {
   #filter-input {
     width: 50%;
   }
-  .companies-table {
-    table {
-      td, th {
-        font-size: 1em;
-      }
-    }
-  }
-  hr {
-    margin: 1em 0;
-  }
 }
 
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .history-chart {
-    height: 20em;
-  }
-  .companies-table {
-    table {
-      th {
-        font-size: 0.65em;
-      }
-      td {
-        min-width: 60px;
-        max-width: 135px;
-        font-size: 0.7em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
+@media (min-width: 992px) {
+  .navbar-right {
+    display: inline;
   }
 }

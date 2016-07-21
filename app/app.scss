@@ -4,11 +4,19 @@ $highlightColor: #F37121;
 // Main Layout
 // ----------------------------------------
 
-.app {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-height: 100vh;
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  padding-bottom: 4em;
+  min-height: 100%;
 }
 
 .navbar, .footer-bar {
@@ -39,8 +47,8 @@ main {
 }
 
 .footer-bar {
-  margin-top: auto;
-  margin-bottom: 0;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   line-height: 3.5em;
 }

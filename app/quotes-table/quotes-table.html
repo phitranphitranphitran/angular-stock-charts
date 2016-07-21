@@ -1,4 +1,4 @@
-<table>
+<table class="quotes-table">
   <thead>
     <tr>
       <th ng-click="$ctrl.orderByField='symbol'; $ctrl.orderReverse = !$ctrl.orderReverse">
@@ -14,13 +14,13 @@
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='currentPrice'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        <span>Current Price (USD)</span>
+        <span>Current Price<span class="currency-label"> (USD)</span></span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'currentPrice'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>
       </th>
       <th ng-click="$ctrl.orderByField='marketCap'; $ctrl.orderReverse = !$ctrl.orderReverse">
-        <span>Market Cap (USD)</span>
+        <span>Market Cap<span class="currency-label"> (USD)</span></span>
         <span ng-class="{'hidden': $ctrl.orderByField !== 'marketCap'}">
           <span ng-bind="$ctrl.orderReverse ? '&#9660' : '&#9650'" class="order-caret"></span>
         </span>

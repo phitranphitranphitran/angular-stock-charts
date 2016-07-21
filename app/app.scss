@@ -83,7 +83,6 @@ main {
   width: 100%;
 
   td, th {
-    padding: 0.5em;
     min-width: 70px;
     max-width: 120px;
     span {
@@ -92,9 +91,11 @@ main {
   }
   th {
     font-size: 0.65em;
+    padding: 1em;
   }
   td {
     font-size: 0.7em;
+    padding: 0.5em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

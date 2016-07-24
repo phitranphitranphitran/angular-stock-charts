@@ -13,6 +13,10 @@ https://phitranphitranphitran.github.io/angular-stock-charts
 git clone https://github.com/phitranphitranphitran/angular-stock-charts
 cd angular-stock-charts
 npm install
+```
+
+Development server:
+```
 npm start
 ```
 
@@ -44,3 +48,7 @@ Data source: Yahoo Finance API
 ### Screenshots
 
 ![app screenshot](http://i.imgur.com/GwTXTCi.png)
+
+### Todo
+
+- Implement UI for selecting more APIs to get data from (although not many free ones out there...)

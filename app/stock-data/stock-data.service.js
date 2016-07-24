@@ -12,24 +12,21 @@ class StockDataService {
     this.apiSelector = apiSelector;
     this.toastr = toastr;
 
+    // keeps track of all ongoing request promises and for which symbols
+    this.requests = new Map();
+
     this.onUpdateApi(apiSelector.getApi());
 
     apiSelector.listen(false, (event, api) => {
       this.onUpdateApi(api);
       this.get(symbolsStore.getSymbols());
     });
-
-    // this.requests - { "SYMBOL": Promise, ... }
-    // keeps track of all ongoing requests and for which symbols
-
-    // this.data - { quotes, histories }
-    // store of data fetched and extracted from request responses
   }
 
   // on API change, simply replace sendRequest and extractData with API-specific methods from apiUtils
   onUpdateApi(api) {
     this.data = false;
-    this.requests = false;
+    this.requests.clear();
     switch(api) {
       // case apiConstants.yahoo:
       default: {
@@ -46,7 +43,7 @@ class StockDataService {
     // if "symbols" arg is present, that means new stock data is to be added
     const adding = symbols ? true : false;
 
-    if (!this.requests && !adding) {
+    if (!this.requests.size && !adding) {
       // simplest case, return data stored if no requests are happening
       if (this.data) {
         return this.$q(resolve => resolve(this.data));
@@ -57,11 +54,11 @@ class StockDataService {
       }
     }
 
-    if (this.requests) {
+    if (this.requests.size) {
       // a get() call while requests are happening
       if (!adding) {
         // return the updated data after all pending requests finish
-        const allRequests = Object.keys(this.requests).map(symbol => this.requests[symbol]);
+        const allRequests = Array.from(this.requests.values());
         return this.$q.all(allRequests).then(() => this.data);
       }
       // adding data while requests are ongoing, a little trickier
@@ -116,22 +113,11 @@ class StockDataService {
   }
 
   clearRequests(symbols) {
-    symbols.forEach(symbol => {
-      delete this.requests[symbol];
-    });
-    // if no more fetches, set to false ({} isn't falsey)
-    if (!Object.keys(this.requests).length) {
-      this.requests = false;
-    }
+    symbols.forEach(symbol => this.requests.delete(symbol));
   }
 
   trackRequest(symbols, request) {
-    if (!this.requests) {
-      this.requests = {};
-    }
-    symbols.forEach(symbol => {
-      this.requests[symbol] = request;
-    });
+    symbols.forEach(symbol => this.requests.set(symbol, request));
   }
 
   // adds a single new stock data entry to the store
@@ -143,10 +129,10 @@ class StockDataService {
           type: "duplicate"
         });
       }
-      if (this.requests.hasOwnProperty(symbol)) {
+      if (this.requests.has(symbol)) {
         return reject({
           message: `${symbol} is already being added`,
-          promise: this.requests[symbol],
+          promise: this.requests.get(symbol),
           type: "fetching"
         });
       }
@@ -163,6 +149,10 @@ class StockDataService {
     return this.data && this.data.histories.hasOwnProperty(symbol);
   }
 
+  getRequestingSymbols() {
+    return Array.from(this.requests.keys());
+  }
+
   // checks if requests for certain symbols are already being made.
   // returns an array of Promises for each symbol currently being requested
   // and an array of the symbols that are not being requested
@@ -170,8 +160,8 @@ class StockDataService {
     const requests = [];
     const toBeFetched = [];
     symbols.forEach(symbol => {
-      if (this.requests.hasOwnProperty(symbol)) {
-        requests.push(this.requests[symbol]);
+      if (this.requests.has(symbol)) {
+        requests.push(this.requests.get(symbol));
       } else {
         toBeFetched.push(symbol);
       }

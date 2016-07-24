@@ -2,7 +2,7 @@ import "./loader-vendor.scss"; // loading animation
 import "./loader-override.scss";
 
 function RequestsListController($scope, $timeout, stockData, toastr) {
-  this.toasts = {};
+  this.toasts = new Map();
   let initialLoad = true;
 
   const toastSettings =  {
@@ -18,7 +18,7 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
     </div>`;
 
   const removeToast = (symbol) => {
-    const toast = this.toasts[symbol];
+    const toast = this.toasts.get(symbol);
     // check if timeout promise
     if (typeof toast.then === "function" && typeof toast.catch === "function") {
       $timeout.cancel(toast);
@@ -27,37 +27,35 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
       // so must manually remove instead
       toast.el.remove();
     }
-    delete this.toasts[symbol];
+    this.toasts.delete(symbol);
   };
 
-  $scope.$watch(() => stockData.requests, (latestRequests) => {
+  $scope.$watch(() => stockData.getRequestingSymbols(), (latestRequests) => {
     if (initialLoad) {
-      this.toasts.INITIAL_LOAD = toastr.info(toastTemplate("Getting stocks data"), toastSettings);
+      this.toasts.set("INITIAL_LOAD", toastr.info(toastTemplate("Getting stocks data"), toastSettings));
       initialLoad = false;
       return;
     }
-    if (latestRequests) {
+    if (latestRequests.length) {
       // open toasts for new requests
-      Object.keys(latestRequests).forEach(symbol => {
-        if (!this.toasts.hasOwnProperty(symbol)) {
+      latestRequests.forEach(symbol => {
+        if (!this.toasts.has(symbol)) {
           // prevent jarring flash by only showing toast for "long" requests
-          this.toasts[symbol] = $timeout(() => {
-            this.toasts[symbol] = toastr.info(toastTemplate(`Adding ${symbol}`), toastSettings);
-          }, 500);
+          this.toasts.set(symbol, $timeout(() => {
+            this.toasts.set(symbol, toastr.info(toastTemplate(`Adding ${symbol}`), toastSettings));
+          }, 500));
         }
       });
       // close toasts for finished requests
-      Object.keys(this.toasts).forEach(symbol => {
-        if (!latestRequests.hasOwnProperty(symbol)) {
+      this.toasts.forEach((request, symbol) => {
+        if (!latestRequests.indexOf(symbol) <= -1) {
           removeToast(symbol);
         }
       });
     }
     // close all toasts
     else {
-      Object.keys(this.toasts).forEach(symbol => {
-        removeToast(symbol);
-      });
+      this.toasts.forEach((request, symbol) => removeToast(symbol));
     }
   }, true);
 }

@@ -149,6 +149,10 @@ class StockDataService {
     return this.data && this.data.histories.hasOwnProperty(symbol);
   }
 
+  getRequestingSymbols() {
+    return Array.from(this.requests.keys());
+  }
+
   // checks if requests for certain symbols are already being made.
   // returns an array of Promises for each symbol currently being requested
   // and an array of the symbols that are not being requested

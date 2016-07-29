@@ -48,7 +48,7 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
       });
       // close toasts for finished requests
       this.toasts.forEach((request, symbol) => {
-        if (!latestRequests.indexOf(symbol) <= -1) {
+        if (!latestRequests.includes(symbol)) {
           removeToast(symbol);
         }
       });

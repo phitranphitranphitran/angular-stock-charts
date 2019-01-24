@@ -31,11 +31,12 @@ function RequestsListController($scope, $timeout, stockData, toastr) {
   };
 
   $scope.$watch(() => stockData.getRequestingSymbols(), (latestRequests) => {
-    if (initialLoad) {
-      this.toasts.set("INITIAL_LOAD", toastr.info(toastTemplate("Getting stocks data"), toastSettings));
-      initialLoad = false;
-      return;
-    }
+    // Commented out because Yahoo Finenace API is shut down, mock data is used instead
+    // if (initialLoad) {
+    //   this.toasts.set("INITIAL_LOAD", toastr.info(toastTemplate("Getting stocks data"), toastSettings));
+    //   initialLoad = false;
+    //   return;
+    // }
     if (latestRequests.length) {
       // open toasts for new requests
       latestRequests.forEach(symbol => {

@@ -1,3 +1,4 @@
 export default {
-  yahoo: "yahoo"
+  yahoo: "yahoo",
+  yahooMock: "yahooMock"
 };

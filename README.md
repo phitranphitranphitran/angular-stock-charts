@@ -2,6 +2,9 @@
 
 App for viewing companies' stock price histories and additional info.
 
+**[As of May 2017, the Yahoo Finance API has been shut down.](https://forums.yahoo.net/t5/Yahoo-Finance-help/Is-Yahoo-Finance-API-broken/m-p/251312#M3123)**
+To keep it working as a demonstration, the code has been updated to use mock data.
+
 ### Live Demo
 
 https://phitranphitranphitran.github.io/angular-stock-charts

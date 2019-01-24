@@ -1,3 +1,4 @@
-import { sendRequest, extractData } from "./data-utils";
+import * as dataUtils from "./data-utils";
 
-export { sendRequest, extractData };
+export const sendRequest = dataUtils.sendRequest;
+export const extractData = dataUtils.extractData;

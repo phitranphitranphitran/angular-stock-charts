@@ -1,6 +1,8 @@
 import * as yahoo from "./yahoo";
+import * as yahooMock from "./yahoo-mock";
 
 // more API-specific modules would go here
-export {
-  yahoo
+export default {
+  yahoo,
+  yahooMock
 };

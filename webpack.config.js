@@ -34,6 +34,10 @@ module.exports = {
         test: /\.scss$/,
         loaders: production ? ["style", "css", "sass"] : ["style", "css?sourceMap", "sass?sourceMap"]
       },
+      {
+        test: /\.json$/,
+        loader: "json-loader"
+      },
       // for bootstrap
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
       { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },

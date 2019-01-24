@@ -1,11 +1,11 @@
 // see README in api-utils folder to see how to add another API data source
 
-import * as apiUtils from "./api-utils";
+import apiUtils from "./api-utils";
 import { startDate, endDate } from "./config";
 
 class StockDataService {
 
-  constructor($http, $q, symbolsStore, apiSelector, apiConstants, toastr) {
+  constructor($http, $q, symbolsStore, apiSelector, toastr) {
     this.$http = $http;
     this.$q = $q;
     this.symbolsStore = symbolsStore;
@@ -27,13 +27,8 @@ class StockDataService {
   onUpdateApi(api) {
     this.data = false;
     this.requests.clear();
-    switch(api) {
-      // case apiConstants.yahoo:
-      default: {
-        this.sendRequest = apiUtils.yahoo.sendRequest(this.$http, this.$q);
-        this.extractData = apiUtils.yahoo.extractData;
-      }
-    }
+    this.sendRequest = apiUtils[api].sendRequest(this.$http, this.$q);
+    this.extractData = apiUtils[api].extractData;
   }
 
   // main getter method
@@ -178,6 +173,6 @@ class StockDataService {
 
 }
 
-StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector", "apiConstants", "toastr"];
+StockDataService.$inject = ["$http", "$q", "symbolsStore", "apiSelector", "toastr"];
 
 export default StockDataService;

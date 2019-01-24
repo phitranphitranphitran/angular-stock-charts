@@ -2,6 +2,7 @@ function AddStockFormController(stockData, addStockEvent, toastr) {
   this.fetching = false;
 
   this.onSubmit = (symbol) => {
+    alert("As of May 2017, the Yahoo Finance API has been shut down. Fake data will be loaded instead.");
     symbol = symbol.trim().toUpperCase();
     if (symbol === this.symbol) {
       return;

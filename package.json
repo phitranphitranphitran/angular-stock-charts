@@ -41,6 +41,8 @@
     "highcharts": "^4.2.5",
     "highcharts-ng": "0.0.11",
     "html-loader": "^0.4.3",
+    "json-loader": "^0.5.7",
+    "lodash": "^4.17.11",
     "node-sass": "^3.8.0",
     "normalize.css": "^4.2.0",
     "sass-loader": "^4.0.0",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "eslint": "^2.10.2",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.0"
   }
 }

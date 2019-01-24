@@ -1,5 +1,5 @@
 function ApiSelectorService($rootScope, apiConstants) {
-  let selected = apiConstants.yahoo;
+  let selected = apiConstants.yahooMock;
 
   this.setApi = (api) => {
     selected = api;
